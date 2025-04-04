@@ -7,6 +7,7 @@ class ApiService {
 
   Future<Map<String, dynamic>?> postRequest(String url, Map<String, dynamic> body) async {
     try {
+      print("REQUEST URL: " + url);
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -21,6 +22,7 @@ class ApiService {
 
   Future<Map<String, dynamic>?> getRequest(String url) async {
     try {
+      print("REQUEST URL: " + url);
       final response = await http.get(
         Uri.parse(url),
         headers: headers,
@@ -33,6 +35,7 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>?> putRequest(String url, Map<String, dynamic> body) async {
+      print("REQUEST URL: " + url);
     try {
       final response = await http.put(
         Uri.parse(url),
@@ -48,6 +51,7 @@ class ApiService {
 
   Future<Map<String, dynamic>?> deleteRequest(String url) async {
     try {
+      print("REQUEST URL: " + url);
       final response = await http.delete(
         Uri.parse(url),
         headers: headers,

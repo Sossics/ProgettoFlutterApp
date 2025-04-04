@@ -104,6 +104,7 @@ class RegistrationScreen extends StatelessWidget {
                   context,
                   emailController.text,
                   passwordController.text,
+                  usernameController.text,
                 );
               },
               child: Container(

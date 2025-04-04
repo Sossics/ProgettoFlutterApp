@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = "https://example.com/api"; // Cambia con il tuo URL
+  static const String baseUrl = "http://localhost/ProgettoFlutterApp/WebSerivceAuth/auth/v1"; 
   static const String loginEndpoint = "$baseUrl/login";
   static const String registerEndpoint = "$baseUrl/register";
 }

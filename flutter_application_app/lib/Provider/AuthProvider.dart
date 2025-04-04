@@ -11,6 +11,8 @@ class AuthProvider with ChangeNotifier {
     String email,
     String password,
   ) async {
+    print("Signing in...");
+    print("Using Endpoint: ${ApiConstants.loginEndpoint}");
     final response = await _apiService.postRequest(ApiConstants.loginEndpoint, {
       "email": email,
       "password": password,
@@ -38,10 +40,13 @@ class AuthProvider with ChangeNotifier {
     BuildContext context,
     String email,
     String password,
+    String username
   ) async {
+    print("Signing on...");
+    print("Using Endpoint: ${ApiConstants.registerEndpoint}");
     final response = await _apiService.postRequest(
       ApiConstants.registerEndpoint,
-      {"email": email, "password": password},
+      {"email": email, "password": password, "username": username},
     );
 
     if (response != null && response.containsKey('token')) {

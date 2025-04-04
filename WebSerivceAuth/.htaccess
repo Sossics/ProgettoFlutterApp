@@ -1,0 +1,12 @@
+<FilesMatch "\.(txt|log|json|config|ini|sql|docx|pdf|csv|doc|md|lock|gitignore|htaccess)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+
+RewriteEngine On
+
+RewriteRule ^auth/v1/login$ login.php [L]
+RewriteRule ^auth/v1/register$ register.php [L]
+
+Options -Indexes
