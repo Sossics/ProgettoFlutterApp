@@ -38,6 +38,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> register(
     BuildContext context,
+    String name,
+    String surname,
     String email,
     String password,
     String username
@@ -46,7 +48,7 @@ class AuthProvider with ChangeNotifier {
     print("Using Endpoint: ${AuthenticationApiConstants.registerEndpoint}");
     final response = await _apiService.postRequest(
       AuthenticationApiConstants.registerEndpoint,
-      {"email": email, "password": password, "username": username},
+      {"email": email, "password": password, "username": username, "name": name, "surname": surname},
     );
 
     if (response != null && response.containsKey('token')) {

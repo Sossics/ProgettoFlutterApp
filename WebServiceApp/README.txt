@@ -1,0 +1,20 @@
+├── WebServiceApp/
+    ├── .htaccess
+    ├── config.php
+    ├── db.php
+	├── Notepads
+	├───── fetchNotepads.php
+	├───── createNotepad.php
+	├───── editNotepadBody.php
+	├───── deleteNotepad
+	├── Note
+	├───── newNote.php
+	├───── shareNote.php
+	├───── editNoteTitle.php
+	├───── editNoteBody.php
+	├───── deleteNote.php
+	├── User
+	├───── checkUsername.php
+	├───── auth.php
+	├───── addUser.php
+    ├── .gitignore
