@@ -14,8 +14,6 @@
  * 
  * 
  * Il web service prevede le seguenti operazioni:
- * NO auth, che attraverso il token verifica la validità di quest'ultimo (metodo GET, restituisce l'id dell'utente)
- * NO checkUsername, che verifica se uno username è già stato utilizzato (metodo GET, restituisce true o false)
  * - fetchNotepads, che restituisce tutti i blocchi appunti e le note associate ad un utente (metodo GET)
  * OK addUser, aggiunge uno user ricenvendo username, nome, cognome e generando il suo token (metodo POST, restituisce il token)
  * - createNotepad, crea un blocco appunti (metodo PUT)
