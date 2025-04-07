@@ -22,36 +22,42 @@ require '../utils/db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (isset($data["id"]) && isset($data["mod"])) {
-    $xml = new SimpleXMLElement('<DeleteResult/>');
+if(isset($data["token"]) && verifica_token($data["token"])){
 
-    $sql = "DELETE FROM utente WHERE utente.id = ?";
-    $stmt = $conn->prepare($sql);
+    if (isset($data["id"]) && isset($data["mod"])) {
+        $xml = new SimpleXMLElement('<DeleteResult/>');
 
-    $stmt->bind_param("i", $data["id"]);
+        $sql = "DELETE FROM utente WHERE utente.id = ?";
+        $stmt = $conn->prepare($sql);
 
-    if ($stmt->execute()) {
-        $xml->addChild('success', 'true');
-        $xml->addChild('message', 'Utente eliminato con successo');
-        $xml->addChild('error', '');
-        http_response_code(200);
+        $stmt->bind_param("i", $data["id"]);
+
+        if ($stmt->execute()) {
+            $xml->addChild('success', 'true');
+            $xml->addChild('message', 'Utente eliminato con successo');
+            $xml->addChild('error', '');
+            http_response_code(200);
+        } else {
+            $xml->addChild('success', 'false');
+            $xml->addChild('message', 'Utente non eliminato');
+            $xml->addChild('error', 'Error');
+            http_response_code(401);
+        }
+        $stmt->close();
+
+        if ($data["mod"] == "xml") {
+            header('Content-Type: application/xml');
+            echo $xml->asXML();
+        } else if ($data["mod"] == "json") {
+            header('Content-Type: application/json');
+            echo json_encode($xml);
+        }
     } else {
-        $xml->addChild('success', 'false');
-        $xml->addChild('message', 'Utente non eliminato');
-        $xml->addChild('error', 'Error');
-        http_response_code(401);
+        http_response_code(400);
     }
-    $stmt->close();
 
-    if ($data["mod"] == "xml") {
-        header('Content-Type: application/xml');
-        echo $xml->asXML();
-    } else if ($data["mod"] == "json") {
-        header('Content-Type: application/json');
-        echo json_encode($xml);
-    }
-} else {
-    http_response_code(400);
+}else{
+    http_response_code(401);
 }
 
 ?>
