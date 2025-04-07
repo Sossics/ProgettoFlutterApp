@@ -1,7 +1,7 @@
 <?php
 define('AUTH_DB_HOST', 'localhost');
-define('AUTH_DB_USER', 'DEV');
-define('AUTH_DB_PASS', 'russofavaro');
+define('AUTH_DB_USER', 'root');
+define('AUTH_DB_PASS', '');
 define('AUTH_DB_NAME', 'authentication');
 
 define('APP_DB_HOST', 'localhost');

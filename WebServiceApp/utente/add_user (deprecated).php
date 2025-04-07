@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Add User
+ * Add User (Deprecato)
  * 
  *  Aggiunge un nuovo utente al database:
  * 
@@ -22,9 +22,6 @@
  **/
 
 require '../utils/db.php';
-
-if(isset($_POST["token"]) && verifica_token($_POST["token"])){
-
 if (isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["mod"])) {
     $xml = new SimpleXMLElement('<AuthenticationResults/>');
 
@@ -67,10 +64,6 @@ if (isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["surname"]) 
     }
 } else {
     http_response_code(400);
-}
-
-}else{
-    http_response_code(401);
 }
 
 ?>

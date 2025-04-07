@@ -22,7 +22,7 @@ require '../utils/db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if(isset($data["token"]) && verifica_token($data["token"])){
+if(verifica_token()){
 
     if (isset($data["id"]) && isset($data["mod"])) {
         $xml = new SimpleXMLElement('<DeleteResult/>');
