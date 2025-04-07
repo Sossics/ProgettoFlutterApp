@@ -3,7 +3,10 @@ import 'package:flutter_application_app/Provider/AuthProvider.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatelessWidget {
+
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController surnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -36,6 +39,44 @@ class RegistrationScreen extends StatelessWidget {
               style: TextStyle(fontSize: 30, color: Colors.white),
             ),
             const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 200.0),
+              child: TextField(
+                controller: nameController,
+                cursorColor: Colors.white,
+                decoration: const InputDecoration(
+                  labelText: 'Name',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 200.0),
+              child: TextField(
+                controller: surnameController,
+                cursorColor: Colors.white,
+                decoration: const InputDecoration(
+                  labelText: 'Surname',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 200.0),
               child: TextField(
@@ -102,6 +143,8 @@ class RegistrationScreen extends StatelessWidget {
                 );
                 await authProvider.register(
                   context,
+                  nameController.text,
+                  surnameController.text,
                   emailController.text,
                   passwordController.text,
                   usernameController.text,
