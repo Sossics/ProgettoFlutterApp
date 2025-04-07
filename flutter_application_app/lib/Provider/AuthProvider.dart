@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Services/ApiService.dart';
-import 'package:flutter_application_app/Constants/ApiConstants.dart';
+import 'package:flutter_application_app/Constants/AuthenticationApiConstants.dart';
 import 'package:flutter_application_app/Screen/HomeScreen.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -12,8 +12,8 @@ class AuthProvider with ChangeNotifier {
     String password,
   ) async {
     print("Signing in...");
-    print("Using Endpoint: ${ApiConstants.loginEndpoint}");
-    final response = await _apiService.postRequest(ApiConstants.loginEndpoint, {
+    print("Using Endpoint: ${AuthenticationApiConstants.loginEndpoint}");
+    final response = await _apiService.postRequest(AuthenticationApiConstants.loginEndpoint, {
       "email": email,
       "password": password,
     });
@@ -43,9 +43,9 @@ class AuthProvider with ChangeNotifier {
     String username
   ) async {
     print("Signing on...");
-    print("Using Endpoint: ${ApiConstants.registerEndpoint}");
+    print("Using Endpoint: ${AuthenticationApiConstants.registerEndpoint}");
     final response = await _apiService.postRequest(
-      ApiConstants.registerEndpoint,
+      AuthenticationApiConstants.registerEndpoint,
       {"email": email, "password": password, "username": username},
     );
 
