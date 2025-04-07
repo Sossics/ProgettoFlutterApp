@@ -24,37 +24,43 @@ require '../utils/db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (isset($data["name"]) && isset($data["id"])&& isset($data["surname"]) && isset($data["mod"])) {
-    $xml = new SimpleXMLElement('<UpdateResult/>');
+if(isset($data["token"]) && verifica_token($token)){
 
-    $sql = "UPDATE utente SET nome = ?, cognome = ? WHERE utente.id = ?";
-    $stmt = $conn->prepare($sql);
+    if (isset($data["name"]) && isset($data["id"])&& isset($data["surname"]) && isset($data["mod"])) {
+        $xml = new SimpleXMLElement('<UpdateResult/>');
 
-    $stmt->bind_param("ssi", $data["name"], $data["surname"], $data["id"]);
+        $sql = "UPDATE utente SET nome = ?, cognome = ? WHERE utente.id = ?";
+        $stmt = $conn->prepare($sql);
 
-    if ($stmt->execute()) {
+        $stmt->bind_param("ssi", $data["name"], $data["surname"], $data["id"]);
 
-        $xml->addChild('success', 'true');
-        $xml->addChild('message', 'Utente modificato con successo');
-        $xml->addChild('error', '');
-        http_response_code(200);
+        if ($stmt->execute()) {
+
+            $xml->addChild('success', 'true');
+            $xml->addChild('message', 'Utente modificato con successo');
+            $xml->addChild('error', '');
+            http_response_code(200);
+        } else {
+            $xml->addChild('success', 'false');
+            $xml->addChild('message', 'Utente non modificato');
+            $xml->addChild('error', 'Error during the update');
+            http_response_code(401);
+        }
+        $stmt->close();
+
+        if ($data["mod"] == "xml") {
+            header('Content-Type: application/xml');
+            echo $xml->asXML();
+        } else if ($data["mod"] == "json") {
+            header('Content-Type: application/json');
+            echo json_encode($xml);
+        }
     } else {
-        $xml->addChild('success', 'false');
-        $xml->addChild('message', 'Utente non modificato');
-        $xml->addChild('error', 'Error during the update');
-        http_response_code(401);
+        http_response_code(400);
     }
-    $stmt->close();
 
-    if ($data["mod"] == "xml") {
-        header('Content-Type: application/xml');
-        echo $xml->asXML();
-    } else if ($data["mod"] == "json") {
-        header('Content-Type: application/json');
-        echo json_encode($xml);
-    }
-} else {
-    http_response_code(400);
+}else{
+    http_response_code(401);
 }
 
 ?>
