@@ -14,10 +14,8 @@
  * 
  * 
  * Il web service prevede le seguenti operazioni:
- * NO auth, che attraverso il token verifica la validità di quest'ultimo (metodo GET, restituisce l'id dell'utente)
- * NO checkUsername, che verifica se uno username è già stato utilizzato (metodo GET, restituisce true o false)
  * - fetchNotepads, che restituisce tutti i blocchi appunti e le note associate ad un utente (metodo GET)
- * - addUser, aggiunge uno user ricenvendo username, nome, cognome e generando il suo token (metodo POST, restituisce il token)
+ * OK addUser, aggiunge uno user ricenvendo username, nome, cognome e generando il suo token (metodo POST, restituisce il token)
  * - createNotepad, crea un blocco appunti (metodo PUT)
  * - newNote, crea una nuova nota (metodo PUT)
  * - shareNote, condifide una nota ad un utente (metodo PUT)
@@ -239,59 +237,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 //operazioni POST
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-    if (isset($_POST["addUser"])) {
-
-        if (isset($_POST["username"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["mod"])) {
-            $xml = new SimpleXMLElement('<AuthenticationResults/>');
-
-            $token = generateToken();
-
-            $sql = "INSERT INTO utente (login, token, nome, cognome) VALUES (?, ?, ?, ?);";
-            $stmt = $conn->prepare($sql);
-
-            $stmt->bind_param("ssss", $_POST["username"], $token, $_POST["name"], $_POST["surname"]);
-
-            if ($stmt->execute()) {
-
-                $sql2 = "SELECT id FROM utente WHERE utente.login = ?";
-                $stmt2 = $conn->prepare($sql2);
-
-                $stmt2->bind_param("s", $_POST["username"]);
-                $stmt2->execute();
-                $result2 = $stmt2->get_result();
-                $row2 = $result2->fetch_assoc();
-
-                $id = $row2['id'];
-                $xml->addChild('success', 'true');
-                $xml->addChild('userID', $id);
-                $xml->addChild('token', $token);
-                $xml->addChild('message', 'Utente inserito con successo (token: "' . $token . '")');
-                $xml->addChild('error', '');
-                http_response_code(200);
-            } else {
-                $xml->addChild('success', 'false');
-                $xml->addChild('userID', "-1");
-                $xml->addChild('token', '');
-                $xml->addChild('message', 'Utente non inserito');
-                $xml->addChild('error', 'Erro during the insertion');
-                http_response_code(401);
-            }
-            $stmt->close();
-
-            if ($_POST["mod"] == "xml") {
-                header('Content-Type: application/xml');
-                echo $xml->asXML();
-            } else if ($_POST["mod"] == "json") {
-                header('Content-Type: application/json');
-                echo json_encode($xml);
-            }
-        } else {
-            http_response_code(400);
-        }
-    } else {
-        http_response_code(400);
-    }
 
 //operazioni PUT
 } else if ($_SERVER['REQUEST_METHOD'] == "PUT") {

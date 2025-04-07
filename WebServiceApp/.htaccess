@@ -6,7 +6,8 @@
 
 RewriteEngine On
 
-RewriteRule ^auth/v1/login$ login.php [L]
-RewriteRule ^auth/v1/register$ utente/add_user.php [L]
+RewriteRule ^Service/v1/user/register$ utente/add_user.php [L]
+RewriteRule ^Service/v1/user/update$ utente/update_user.php [L]
+RewriteRule ^Service/v1/user/delete$ utente/delete_user.php [L]
 
 Options -Indexes
