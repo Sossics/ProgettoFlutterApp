@@ -1,5 +1,26 @@
 <?php
 
+/**
+ * Add User
+ * 
+ *  Aggiunge un nuovo utente al database:
+ * 
+ *  @method POST
+ * 
+ *  I parametri richiesti sono:
+ *      @param mod: formato di risposta (xml o json)
+ *      @param email: email dell'utente
+ *      @param name: nome dell'utente
+ *      @param surname: cognome dell'utente
+ * 
+ *   La risposta è in formato xml o json a seconda del parametro mod e restituisce il risultato dell'operazione 
+ *   con l'evetuale id dell'utente
+ * 
+ *  @version 1.0
+ *  @author:  Marco Favaro e Michele Russo
+ * 
+ **/
+
 require '../utils/db.php';
 
 if (isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["mod"])) {
@@ -30,7 +51,7 @@ if (isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["surname"]) 
         $xml->addChild('success', 'false');
         $xml->addChild('userID', "-1");
         $xml->addChild('message', 'Utente non inserito');
-        $xml->addChild('error', 'Erro during the insertion');
+        $xml->addChild('error', 'Error during the insertion');
         http_response_code(401);
     }
     $stmt->close();
