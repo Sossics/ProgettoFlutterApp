@@ -14,17 +14,24 @@
  * 
  * 
  * Il web service prevede le seguenti operazioni:
- * - fetchNotepads, che restituisce tutti i blocchi appunti e le note associate ad un utente (metodo GET)
- * OK addUser, aggiunge uno user ricenvendo username, nome, cognome e generando il suo token (metodo POST, restituisce il token)
+ * 
+ * NOTEPAD
  * - createNotepad, crea un blocco appunti (metodo PUT)
- * - newNote, crea una nuova nota (metodo PUT)
- * - shareNote, condifide una nota ad un utente (metodo PUT)
- * - createNotepad, crea un blocco appunti (metodo PUT)
- * - editNoteTitle, modifica il titolo di una nota (metodo PUT)
- * - editNoteBody, modifica il corpo di una nota (metodo PUT)
+ * - fetchNotepads, che restituisce tutti i blocchi appunti
  * - editNotepadBody, modifica il nome di un blocco appunti (metodo PUT)
  * - deleteNotepad, elimina un blocco appunti (metodo DELETE)
+ * 
+ * 
+ * NOTE:
+ * - newNote, crea una nuova nota (metodo PUT)
+ * - fetchNotes, che restituisce tutte le note di un blocco appunti
+ * - editNoteBody, modifica il corpo di una nota (metodo PUT)
+ * - editNoteTitle, modifica il titolo di una nota (metodo PUT)
+ * - shareNote, condivide una nota ad un utente (metodo PUT)
  * - deleteNote, elimina una nota (metodo DELETE)
+ * 
+ * 
+ * 
  * 
  * 
  * Specificando il parametro mod, il web service sarà in grado di generare ogni risposta in XML o in JSON ("xml" o "json" nel parametro mod)

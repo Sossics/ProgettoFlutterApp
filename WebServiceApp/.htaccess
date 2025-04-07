@@ -10,4 +10,9 @@ RewriteRule ^Service/v1/user/register$ utente/add_user.php [L]
 RewriteRule ^Service/v1/user/update$ utente/update_user.php [L]
 RewriteRule ^Service/v1/user/delete$ utente/delete_user.php [L]
 
+RewriteRule ^Service/v1/notes/create$ nota/add_note.php [L]
+RewriteRule ^Service/v1/notes/edit_title$ nota/edit_note_title.php [L]
+RewriteRule ^Service/v1/notes/edit_body$ nota/edit_note_body.php [L]
+RewriteRule ^Service/v1/notes/delete$ nota/delete_note.php [L]
+
 Options -Indexes
