@@ -13,11 +13,11 @@ if (!isset($data['email'], $data['password'])) {
     exit;
 }
 
-$email = $conn->real_escape_string($data['email']);
+$email = $auth_conn->real_escape_string($data['email']);
 $password = $data['password'];
 
 $sql = "SELECT * FROM users WHERE email = ?";
-$stmt = $conn->prepare($sql);
+$stmt = $auth_conn->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -45,9 +45,7 @@ if ($result->num_rows > 0) {
             'message' => 'Login riuscito',
             'token' => $token,
             'username' => $user['username'],
-            'email' => $user['email'],
-            'name' => $user['name'],
-            'surname' => $user['surname']
+            'email' => $user['email']
         ]);
     } else {
         echo json_encode(['error' => 'Credenziali errate']);
