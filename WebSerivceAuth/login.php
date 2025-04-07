@@ -1,6 +1,10 @@
 <?php
 require 'config.php';
 require 'db.php';
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+
 header('Content-Type: application/json');
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -8,15 +12,43 @@ if (!isset($data['email'], $data['password'])) {
     echo json_encode(['error' => 'Parametri mancanti']);
     exit;
 }
+
 $email = $conn->real_escape_string($data['email']);
 $password = $data['password'];
 
-$sql = "SELECT * FROM users WHERE email = '$email'";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM users WHERE email = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
+
     if (password_verify($password, $user['password'])) {
-        echo json_encode(['message' => 'Login riuscito', 'token' => bin2hex(random_bytes(16))]);
+        // Genera JWT
+        $secret_key = JWT_TOKEN_KEY;
+        $issuedAt = time();
+        $expiration = $issuedAt + (6 * 60 * 60); // 6 ore
+
+        $payload = [
+            'iat' => $issuedAt,
+            'exp' => $expiration,
+            'uid' => $user['id'],
+            'username' => $user['username'],
+            'email' => $user['email']
+        ];
+
+        $token = JWT::encode($payload, $secret_key, 'HS256');
+
+        echo json_encode([
+            'message' => 'Login riuscito',
+            'token' => $token,
+            'username' => $user['username'],
+            'email' => $user['email'],
+            'name' => $user['name'],
+            'surname' => $user['surname']
+        ]);
     } else {
         echo json_encode(['error' => 'Credenziali errate']);
     }

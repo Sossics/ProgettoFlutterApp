@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Services/ApiService.dart';
 import 'package:flutter_application_app/Constants/AuthenticationApiConstants.dart';
 import 'package:flutter_application_app/Screen/HomeScreen.dart';
+import "package:flutter_secure_storage/flutter_secure_storage.dart";
 
 class AuthProvider with ChangeNotifier {
   final ApiService _apiService = ApiService();
@@ -20,13 +21,22 @@ class AuthProvider with ChangeNotifier {
 
     if (response != null && response.containsKey('token')) {
       print("Login riuscito: ${response['message']}");
+      print("Token: ${response['token']}");
+      print("Username: ${response['username']}");
+      print("Email: ${response['email']}");
 
-      // Naviga alla HomeScreen dopo il login
+      final storage = FlutterSecureStorage();
+      await storage.write(key: 'jwt_token', value: response['token']);
+
+      await storage.write(key: 'username', value: response['username']);
+      await storage.write(key: 'email', value: response['email']);
+
+      // Naviga alla HomeScreen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
-    } else {
+} else {
       print("Errore di login");
 
       // Mostra un messaggio di errore con uno SnackBar

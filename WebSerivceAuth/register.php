@@ -31,7 +31,7 @@ if($stmt_app->execute()){
 	$last_id = $app_conn->insert_id;
 	
 	//JWT TOKEN
-	$secret_key = 'fg783gq&fv37qvgvafvafa7324fddh';
+	$secret_key = JWT_TOKEN_KEY;
 	$issuedAt   = time();
 	$expiration = $issuedAt + (6 * 60 * 60); // 6 hours
 
