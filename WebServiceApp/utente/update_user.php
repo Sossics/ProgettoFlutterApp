@@ -24,7 +24,10 @@ require '../utils/db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if(verifica_token()){
+if($_SERVER["REQUEST_METHOD"] != "PUT") {
+    http_response_code(405);
+    exit;
+}else if(verifica_token()){
 
     if (isset($data["name"]) && isset($data["id"])&& isset($data["surname"]) && isset($data["mod"])) {
         $xml = new SimpleXMLElement('<UpdateResult/>');

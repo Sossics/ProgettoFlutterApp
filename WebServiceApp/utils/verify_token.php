@@ -16,6 +16,8 @@ include '../config.php';
         //echo json_encode($auth, JSON_PRETTY_PRINT);
         
         if (!$jwt_token || !str_starts_with($jwt_token, 'Bearer ')) {
+            header('Content-Type: application/json');
+            echo json_encode(array("error" => "Token non valido o assente"), JSON_PRETTY_PRINT);
             return false;
         }
 
@@ -24,6 +26,8 @@ include '../config.php';
         try {
             $decoded = JWT::decode($token, new Key($secret_key, 'HS256'));
         } catch (Exception $e) {
+            header('Content-Type: application/json');
+            echo json_encode(array("error" => "Token non valido o scaduto"), JSON_PRETTY_PRINT);
             return false;
         }
 
@@ -38,9 +42,11 @@ include '../config.php';
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        if ($row["service_user_id"] == $decoded->uid) {
+        if ($row["id"] == $decoded->uid) {
             return true;
         } else {
+            header('Content-Type: application/json');
+            echo json_encode(array("error" => "Id del token non corrispondente con id della persona"), JSON_PRETTY_PRINT);
             return false;
         }
 

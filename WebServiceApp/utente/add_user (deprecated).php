@@ -22,7 +22,11 @@
  **/
 
 require '../utils/db.php';
-if (isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["mod"])) {
+
+if($_SERVER["REQUEST_METHOD"] != "POST") {
+    http_response_code(405);
+    exit;
+}else if (isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["mod"])) {
     $xml = new SimpleXMLElement('<AuthenticationResults/>');
 
     $sql = "INSERT INTO utente (email, nome, cognome) VALUES (?, ?, ?);";

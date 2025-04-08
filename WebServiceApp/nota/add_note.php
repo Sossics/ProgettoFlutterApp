@@ -22,7 +22,10 @@
 
 require '../utils/db.php';
 
-if(verifica_token()){
+if($_SERVER["REQUEST_METHOD"] != "POST") {
+    http_response_code(405);
+    exit;
+}else if(verifica_token()){
 
 if (isset($_POST["id_notepad"]) && isset($_POST["title"]) && isset($_POST["body"]) && isset($_POST["mod"])) {
     $xml = new SimpleXMLElement('<AddingResults/>');
