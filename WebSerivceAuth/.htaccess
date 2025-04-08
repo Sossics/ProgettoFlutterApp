@@ -8,5 +8,6 @@ RewriteEngine On
 
 RewriteRule ^auth/v1/login$ login.php [L]
 RewriteRule ^auth/v1/register$ register.php [L]
+RewriteRule ^auth/v2/tokenize$ generate_token.php [L]
 
 Options -Indexes
