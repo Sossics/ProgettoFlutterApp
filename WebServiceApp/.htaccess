@@ -14,5 +14,7 @@ RewriteRule ^Service/v1/notes/create$ nota/add_note.php [L]
 RewriteRule ^Service/v1/notes/edit_title$ nota/edit_note_title.php [L]
 RewriteRule ^Service/v1/notes/edit_body$ nota/edit_note_body.php [L]
 RewriteRule ^Service/v1/notes/delete$ nota/delete_note.php [L]
+RewriteRule ^Service/v1/notes/show_all$ nota/fetch_notes.php [L]
+RewriteRule ^Service/v1/notes/show_one$ nota/fetch_single_note.php [L]
 
 Options -Indexes

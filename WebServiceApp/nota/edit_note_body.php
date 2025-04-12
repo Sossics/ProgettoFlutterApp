@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] != "PATCH") {
 }else if(verifica_token()){
 
 if (isset($data["id_note"]) && isset($data["body"]) && isset($data["mod"])) {
-    $xml = new SimpleXMLElement('<UpdateResults/>');
+    $xml = new SimpleXMLElement('<result/>');
 
     $sql = "UPDATE nota SET corpo = ? WHERE nota.id = ?";
     $stmt = $conn->prepare($sql);

@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] != "DELETE") {
 }else if(verifica_token()){
 
     if (isset($data["id"]) && isset($data["mod"])) {
-        $xml = new SimpleXMLElement('<DeleteResult/>');
+        $xml = new SimpleXMLElement('<result/>');
 
         $sql = "DELETE FROM utente WHERE utente.id = ?";
         $stmt = $conn->prepare($sql);

@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] != "PUT") {
 }else if(verifica_token()){
 
     if (isset($data["name"]) && isset($data["id"])&& isset($data["surname"]) && isset($data["mod"])) {
-        $xml = new SimpleXMLElement('<UpdateResult/>');
+        $xml = new SimpleXMLElement('<result/>');
 
         $sql = "UPDATE utente SET nome = ?, cognome = ? WHERE utente.id = ?";
         $stmt = $conn->prepare($sql);
