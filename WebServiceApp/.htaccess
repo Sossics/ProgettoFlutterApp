@@ -17,4 +17,11 @@ RewriteRule ^Service/v1/notes/delete$ nota/delete_note.php [L]
 RewriteRule ^Service/v1/notes/show_all$ nota/fetch_notes.php [L]
 RewriteRule ^Service/v1/notes/show_one$ nota/fetch_single_note.php [L]
 
+RewriteRule ^Service/v1/notepads/create$ blocco/add_notepad.php [L]
+RewriteRule ^Service/v1/notepads/edit_title$ blocco/edit_notepad_title.php [L]
+RewriteRule ^Service/v1/notepads/edit_description$ blocco/edit_notepad_description.php [L]
+RewriteRule ^Service/v1/notepads/delete$ blocco/delete_notepad.php [L]
+RewriteRule ^Service/v1/notepads/show_all$ blocco/fetch_notepads.php [L]
+RewriteRule ^Service/v1/notepads/show_one$ blocco/fetch_single_notepad.php [L]
+
 Options -Indexes
