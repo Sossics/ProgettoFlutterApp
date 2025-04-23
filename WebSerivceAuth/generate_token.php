@@ -1,4 +1,23 @@
 <?php
+
+/**
+ * Genetate Token
+ * 
+ *  Questo file genera un token JWT per l'utente autenticato.
+ * 
+ *  @method 
+ * 
+ *  I parametri richiesti sono:
+ * 			@param email: email dell'utente
+ * 
+ *   La risposta è in formato json
+ * 
+ *  @version 1.0
+ *  @author:  Marco Favaro e Michele Russo
+ * 
+ **/
+
+
 require 'config.php';
 require 'db.php';
 require_once 'vendor/autoload.php';

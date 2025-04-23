@@ -1,4 +1,28 @@
 <?php
+
+/**
+ * Register User
+ * 
+ *  Registra un nuovo utente nel database AUTH e APP
+ * 
+ *  @method 
+ * 
+ *  I parametri richiesti sono:
+ * 			@param username: nome utente
+ * 			@param email: email dell'utente
+ * 			@param password: password dell'utente
+ * 			@param name: nome dell'utente
+ * 			@param surname: cognome dell'utente
+ * 
+ *   La risposta è in formato json
+ * 
+ *  @version 1.0
+ *  @author:  Marco Favaro e Michele Russo
+ * 
+ **/
+
+
+
 require 'config.php';
 require 'db.php';
 use Firebase\JWT\JWT;

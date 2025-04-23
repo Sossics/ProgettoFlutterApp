@@ -1,4 +1,24 @@
 <?php
+
+/**
+ * Login
+ * 
+ *  Questo file gestisce il login degli utenti.
+ * 
+ *  @method 
+ * 
+ *  I parametri richiesti sono:
+ * 			@param email: email dell'utente
+ * 			@param password: password dell'utente
+ * 
+ *   La risposta è in formato json
+ * 
+ *  @version 1.0
+ *  @author:  Marco Favaro e Michele Russo
+ * 
+ **/
+
+
 require 'config.php';
 require 'db.php';
 require_once 'vendor/autoload.php';
