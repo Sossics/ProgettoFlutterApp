@@ -24,5 +24,6 @@ RewriteRule ^Service/v1/notepads/edit_description$ blocco/edit_notepad_descripti
 RewriteRule ^Service/v1/notepads/delete$ blocco/delete_notepad.php [L]
 RewriteRule ^Service/v1/notepads/show_all$ blocco/fetch_notepads.php [L]
 RewriteRule ^Service/v1/notepads/show_one$ blocco/fetch_single_notepad.php [L]
+RewriteRule ^Service/v1/notepads/share$ blocco/share_notepad.php [L]
 
 Options -Indexes
