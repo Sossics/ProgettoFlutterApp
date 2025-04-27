@@ -28,8 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  jwt_decoder:
   flutter_secure_storage:
   http:
+  animate_do:
   provider:
   flutter:
     sdk: flutter

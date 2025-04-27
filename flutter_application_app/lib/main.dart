@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_app/Screen/WelcomeScreen.dart';
 import 'package:flutter_application_app/Provider/AuthProvider.dart';
+import 'package:flutter_application_app/Screen/InitScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,10 +17,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Auth',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: WelcomeScreen(),
+        theme: ThemeData(useMaterial3: true),
+        home: const InitScreen(), // <-- punto di partenza
       ),
     );
   }
