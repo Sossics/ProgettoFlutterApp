@@ -1,7 +1,7 @@
-class AuthenticationApiConstants {
+class NotelyApiConstants {
 
   //Base URL
-  static const String baseUrl = "http://localhost/ProgettoFlutterApp/WebSerivceApp/v1"; 
+  static const String baseUrl = "http://localhost/ProgettoFlutterApp/WebSerivceApp/Service/v1"; 
 
   //Common endpoints
   static const String NotepadsEndpoint = "$baseUrl/Notepads"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Notepads
@@ -22,6 +22,8 @@ class AuthenticationApiConstants {
     static const String EDIT_NOTE_BODY = "$NoteEndpoint/edit-body"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Notes/edit-body
     static const String SHARE_NOTE = "$NoteEndpoint/share"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Notes/share
     static const String DELETE_NOTE = "$NoteEndpoint/delete"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Notes/delete
+    static const String FETCH_NOTES = NoteEndpoint; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Notes
+
 
     //USER endpoints
     static const String CHECK_USERNAME = "$UserEndpoint/check-username"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/check-username

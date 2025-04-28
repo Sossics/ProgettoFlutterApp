@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Services/TokenStorageService.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_application_app/Widgets/NotesPage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildMobileContent() {
     final List<Widget> _mobilePages = [
-      Center(child: Text("Notes Page")),
+      const NotesPage(),
       Center(child: Text("Noteblocks Page")),
       Center(child: Text("Sharing Page")),
       Center(child: Text("Account Page")),
