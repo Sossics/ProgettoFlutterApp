@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        if ($row["id"] == $decoded->uid) {
+        if (isset($row["id"]) && $row["id"] == $decoded->uid) {
             return true;
         } else {
             header('Content-Type: application/json');
