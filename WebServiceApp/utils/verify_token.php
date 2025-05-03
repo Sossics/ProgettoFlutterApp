@@ -25,6 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
             $jwt_token = $headers['Authorization'];
         }
 
+        if (isset($headers['authorization'])) {
+            $jwt_token = $headers['authorization'];
+        }
+
         $secret_key = JWT_TOKEN_KEY; // deve essere uguale a quella usata per generare il token
         
         //echo json_encode($auth, JSON_PRETTY_PRINT);
