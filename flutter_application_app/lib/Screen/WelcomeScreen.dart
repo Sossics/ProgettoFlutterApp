@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Screen/LoginScreen.dart';
 import 'package:flutter_application_app/Screen/RegistrationScreen.dart';
+// ignore: unused_import
 import 'package:flutter_application_app/Style/Colors.dart';
 
 class WelcomeScreen extends StatelessWidget {
