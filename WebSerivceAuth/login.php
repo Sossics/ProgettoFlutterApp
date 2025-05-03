@@ -57,6 +57,7 @@ if ($result->num_rows > 0) {
 
     if (password_verify($password, $user['password'])) {
         // Genera JWT
+        $userId = $user['service_user_id'];
         $secret_key = JWT_TOKEN_KEY;
         $issuedAt = time();
         $expiration = $issuedAt + (6 * 60 * 60); // 6 ore
@@ -64,7 +65,7 @@ if ($result->num_rows > 0) {
         $payload = [
             'iat' => $issuedAt,
             'exp' => $expiration,
-            'uid' => $user['id'],
+            'uid' => $userId,
             'username' => $user['username'],
             'email' => $user['email']
         ];
