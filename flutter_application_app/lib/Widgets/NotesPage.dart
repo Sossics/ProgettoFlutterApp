@@ -14,7 +14,7 @@ class _NotesPageState extends State<NotesPage> {
   void initState() {
     super.initState();
     // Carica le note una volta che la pagina è stata inizializzata
-    Future.microtask(() => context.read<AppProvider>().fetchNotes());
+    Future.microtask(() => context.read<AppProvider>().fetchNotes(mod: 'json'));
   }
 
   @override
