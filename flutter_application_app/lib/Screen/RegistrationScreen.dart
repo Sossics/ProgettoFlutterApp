@@ -17,7 +17,7 @@ class RegistrationScreen extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(colors: [Colors.red, Colors.black]),
+          gradient: LinearGradient(colors: [Color.fromARGB(255, 155, 114, 250), Color.fromARGB(255, 255, 255, 255)]),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,7 @@ class RegistrationScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 0, 0, 0)),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -36,25 +36,25 @@ class RegistrationScreen extends StatelessWidget {
             ),
             const Text(
               'Register',
-              style: TextStyle(fontSize: 30, color: Colors.white),
+              style: TextStyle(fontSize: 30, color: Color.fromARGB(255, 0, 0, 0)),
             ),
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 200.0),
               child: TextField(
                 controller: nameController,
-                cursorColor: Colors.white,
+                cursorColor: const Color.fromARGB(255, 0, 0, 0),
                 decoration: const InputDecoration(
                   labelText: 'Name',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             const SizedBox(height: 20),
@@ -62,18 +62,18 @@ class RegistrationScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 200.0),
               child: TextField(
                 controller: surnameController,
-                cursorColor: Colors.white,
+                cursorColor: const Color.fromARGB(255, 0, 0, 0),
                 decoration: const InputDecoration(
                   labelText: 'Surname',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             const SizedBox(height: 20),
@@ -81,18 +81,18 @@ class RegistrationScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 200.0),
               child: TextField(
                 controller: usernameController,
-                cursorColor: Colors.white,
+                cursorColor: const Color.fromARGB(255, 0, 0, 0),
                 decoration: const InputDecoration(
                   labelText: 'Username',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             const SizedBox(height: 20),
@@ -100,18 +100,18 @@ class RegistrationScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 200.0),
               child: TextField(
                 controller: emailController,
-                cursorColor: Colors.white,
+                cursorColor: const Color.fromARGB(255, 0, 0, 0),
                 decoration: const InputDecoration(
                   labelText: 'Email',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             const SizedBox(height: 20),
@@ -119,18 +119,18 @@ class RegistrationScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 200.0),
               child: TextField(
                 controller: passwordController,
-                cursorColor: Colors.white,
+                cursorColor: const Color.fromARGB(255, 0, 0, 0),
                 decoration: const InputDecoration(
                   labelText: 'Password',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                 obscureText: true,
               ),
             ),
@@ -154,9 +154,9 @@ class RegistrationScreen extends StatelessWidget {
                 height: 53,
                 width: 320,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 0, 0, 0),
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.white),
+                  border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                 ),
                 child: const Center(
                   child: Text(
@@ -164,7 +164,7 @@ class RegistrationScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),

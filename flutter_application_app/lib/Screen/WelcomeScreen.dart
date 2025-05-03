@@ -11,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(colors: [Colors.red, Colors.black]),
+          gradient: LinearGradient(colors: [Color.fromARGB(255, 155, 114, 250), Color.fromARGB(255, 255, 255, 255)]),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
             const SizedBox(height: 100),
             const Text(
               'Welcome Back',
-              style: TextStyle(fontSize: 30, color: Colors.white),
+              style: TextStyle(fontSize: 30, color: Color.fromARGB(255, 0, 0, 0)),
             ),
             SizedBox(height: 30),
             GestureDetector(
@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
                 width: 320,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.white),
+                  border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                 ),
                 child: const Center(
                   child: Text(
@@ -43,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 0, 0, 0),
                     ),
                   ),
                 ),
@@ -61,9 +61,9 @@ class WelcomeScreen extends StatelessWidget {
                 height: 53,
                 width: 320,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 0, 0, 0),
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.white),
+                  border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                 ),
                 child: const Center(
                   child: Text(
@@ -71,7 +71,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),
@@ -80,7 +80,7 @@ class WelcomeScreen extends StatelessWidget {
             const Spacer(),
             const Text(
               '@Copyright Russo&Favaro 2025',
-              style: TextStyle(fontSize: 10, color: Colors.white),
+              style: TextStyle(fontSize: 10, color: Color.fromARGB(255, 0, 0, 0)),
             ),
             const SizedBox(height: 12),
           ],
