@@ -107,6 +107,7 @@ class ApiService {
   }
 
   Map<String, dynamic>? _handleResponse(http.Response response) {
+    print("Server Response: ${response.body}");
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
