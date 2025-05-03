@@ -10,8 +10,8 @@
  *  I parametri richiesti sono:
  *      @param mod: formato di risposta (xml o json)
  *      @param id_user: id dell'utente
- *      @param title: il titolo della nota
- *      @param description: il corpo della nota
+ *      @param title: il titolo del blocco
+ *      @param description: la descizione del blocco
  * 
  *   La risposta è in formato xml o json a seconda del parametro mod e restituisce il risultato dell'operazione
  * 

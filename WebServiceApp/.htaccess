@@ -6,25 +6,29 @@
 
 RewriteEngine On
 
-RewriteRule ^Service/v1/user/register$ utente/add_user.php [L]
-RewriteRule ^Service/v1/user/update$ utente/update_user.php [L]
-RewriteRule ^Service/v1/user/delete$ utente/delete_user.php [L]
-	
-RewriteRule ^Service/v1/notes/create$ nota/add_note.php [L]
-RewriteRule ^Service/v1/notes/edit_title$ nota/edit_note_title.php [L]
-RewriteRule ^Service/v1/notes/edit_body$ nota/edit_note_body.php [L]
-RewriteRule ^Service/v1/notes/delete$ nota/delete_note.php [L]
-RewriteRule ^Service/v1/Notes$ nota/fetch_notes.php [L]
-RewriteRule ^Service/v1/notes/show_one$ nota/fetch_single_note.php [L]
-RewriteRule ^Service/v1/notes/share$ nota/share_note.php [L]
-RewriteRule ^Service/v1/notes/unshare$ nota/unshare_note.php [L]
+RewriteRule ^Service/v1/Users/register$ utente/add_user.php [L]
+RewriteRule ^Service/v1/Users/update$ utente/update_user.php [L]
+RewriteRule ^Service/v1/Users/delete$ utente/delete_user.php [L]
 
-RewriteRule ^Service/v1/notepads/create$ blocco/add_notepad.php [L]
-RewriteRule ^Service/v1/notepads/edit_title$ blocco/edit_notepad_title.php [L]
-RewriteRule ^Service/v1/notepads/edit_description$ blocco/edit_notepad_description.php [L]
-RewriteRule ^Service/v1/notepads/delete$ blocco/delete_notepad.php [L]
-RewriteRule ^Service/v1/notepads/show_all$ blocco/fetch_notepads.php [L]
-RewriteRule ^Service/v1/notepads/show_one$ blocco/fetch_single_notepad.php [L]
-RewriteRule ^Service/v1/notepads/share$ blocco/share_notepad.php [L]
+
+	
+RewriteRule ^Service/v1/Notes/create$ nota/add_note.php [L]
+RewriteRule ^Service/v1/Notes/edit-title$ nota/edit_note_title.php [L]
+RewriteRule ^Service/v1/Notes/edit-body$ nota/edit_note_body.php [L]
+RewriteRule ^Service/v1/Notes/delete$ nota/delete_note.php [L]
+RewriteRule ^Service/v1/Notes$ nota/fetch_notes.php [L]
+RewriteRule ^Service/v1/Notes/fetch-by-id$ nota/fetch_single_note.php [L]
+RewriteRule ^Service/v1/Notes/share$ nota/share_note.php [L]
+RewriteRule ^Service/v1/Notes/unshare$ nota/unshare_note.php [L]
+
+
+
+RewriteRule ^Service/v1/Notepads/create$ blocco/add_notepad.php [L]
+RewriteRule ^Service/v1/Notepads/edit-title$ blocco/edit_notepad_title.php [L]
+RewriteRule ^Service/v1/Notepads/edit-body$ blocco/edit_notepad_description.php [L]
+RewriteRule ^Service/v1/Notepads/delete$ blocco/delete_notepad.php [L]
+RewriteRule ^Service/v1/Notepads$ blocco/fetch_notepads.php [L]
+RewriteRule ^Service/v1/Notepads/fetch-by-id$ blocco/fetch_single_notepad.php [L]
+RewriteRule ^Service/v1/Notepads/share$ blocco/share_notepad.php [L]
 
 Options -Indexes
