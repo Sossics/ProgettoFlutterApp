@@ -1,7 +1,7 @@
 class NotelyApiConstants {
 
   //Base URL
-  static const String baseUrl = "http://localhost/ProgettoFlutterApp/WebSerivceApp/Service/v1"; 
+  static const String baseUrl = "http://localhost/ProgettoFlutterApp/WebServiceApp/Service/v1"; 
 
   //Common endpoints
   static const String NotepadsEndpoint = "$baseUrl/Notepads"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Notepads

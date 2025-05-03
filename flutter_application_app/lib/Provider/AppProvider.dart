@@ -5,6 +5,14 @@ import 'package:flutter_application_app/Constants/NotelyApiConstants.dart';
 class AppProvider with ChangeNotifier {
   final ApiService _apiService = ApiService();
 
+  AppProvider() {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await _apiService.ready;
+  }
+
   // Variabili per lo stato
   List<Map<String, dynamic>> _notes = [];
   bool _isLoading = true;

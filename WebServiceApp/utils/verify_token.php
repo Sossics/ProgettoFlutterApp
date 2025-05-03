@@ -8,7 +8,7 @@ include '../config.php';
     function verifica_token(){
 
         $headers = apache_request_headers();
-        $auth = $headers['Authorization'] ?? null;
+        $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
 
         $jwt_token = $auth ?? null;
         $secret_key = JWT_TOKEN_KEY; // deve essere uguale a quella usata per generare il token
