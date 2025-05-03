@@ -5,12 +5,26 @@ use Firebase\JWT\Key;
 require_once './../../WebSerivceAuth\vendor\autoload.php';
 include '../config.php';
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
     function verifica_token(){
 
         $headers = apache_request_headers();
         $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
 
         $jwt_token = $auth ?? null;
+
+        if (isset($headers['Authorization'])) {
+            $jwt_token = $headers['Authorization'];
+        }
+
         $secret_key = JWT_TOKEN_KEY; // deve essere uguale a quella usata per generare il token
         
         //echo json_encode($auth, JSON_PRETTY_PRINT);
