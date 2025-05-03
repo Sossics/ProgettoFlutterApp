@@ -18,64 +18,98 @@
  * 
  **/
 
-require '../utils/db.php';
-
-if($_SERVER["REQUEST_METHOD"] != "GET") {
-    http_response_code(405);
-    exit;
-}else if(verifica_token()){
-
-if (isset($_GET["id_notepad"]) && isset($_GET["mod"])) {
-    $xml = new SimpleXMLElement('<result/>');
-
-    $sql = "SELECT * FROM nota WHERE id_blocco=?";
-    $stmt = $conn->prepare($sql);
-
-    $stmt->bind_param("i", $_GET["id_notepad"]);
-
-    if ($stmt->execute()) {
-
-
-
-        $notes_result = $stmt->get_result();
-
-        $xml->addChild('success', 'true');
-        $xml->addChild('error', '');
-        $xml->addChild('id_notepad', $_GET["id_notepad"]);
-        $notes = $xml->addChild('notes');
-
-        while ($note_row = $notes_result->fetch_assoc()) {
-            $note = $notes->addChild('Note');
-            $note->addChild('id', $note_row['id']);  // Attributo id
-            $note->addChild('title', htmlspecialchars($note_row['titolo']));
-            $note->addChild('body', htmlspecialchars($note_row['corpo']));
+ require '../utils/db.php';
+ require_once './../../WebSerivceAuth\vendor\autoload.php';
+ 
+ use Firebase\JWT\JWT;
+ use Firebase\JWT\Key;
+ 
+ if ($_SERVER["REQUEST_METHOD"] != "GET") {
+     http_response_code(405);
+     exit;
+ } elseif (verifica_token()) {
+     
+     $headers = apache_request_headers();
+     $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+ 
+     if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
+         http_response_code(401);
+         exit;
+     }
+ 
+     $token = str_replace('Bearer ', '', $authHeader);
+ 
+     try {
+         $secret_key = JWT_TOKEN_KEY;
+         $decoded = JWT::decode($token, new Key($secret_key, 'HS256'));
+         $userId = $decoded->uid;
+     } catch (Exception $e) {
+         http_response_code(401);
+         exit;
+     }
+ 
+     if (isset($_GET["mod"])) {
+        $xml = new SimpleXMLElement('<result/>');
+    
+        if (!empty($_GET["id_notepad"])) {
+            // Note da un blocco specifico in cui l'utente è l'autore
+            $sql = "SELECT n.* 
+                    FROM nota n
+                    INNER JOIN blocco b ON b.id = n.id_blocco
+                    LEFT JOIN appartiene a ON a.id_nota = n.id
+                    WHERE n.id_blocco = ? AND (b.id_utente = ? OR a.id_utente = ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iii", $_GET["id_notepad"], $userId, $userId);  // Controllo se l'utente è l'autore o se la nota è condivisa
+        } else {
+            // Tutte le note dell'utente (da tutti i blocchi che ha creato o che sono stati condivisi con lui)
+            $sql = "SELECT n.* 
+                    FROM nota n
+                    INNER JOIN blocco b ON b.id = n.id_blocco
+                    LEFT JOIN appartiene a ON a.id_nota = n.id
+                    WHERE b.id_utente = ? OR a.id_utente = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $userId, $userId);  // Controllo se l'utente è l'autore del blocco o se la nota è stata condivisa
         }
-
-        http_response_code(200);
-    } else {
-
-
-        $xml->addChild('success', 'false');
-        $xml->addChild('error', 'Error during the reading');
-        $xml->addChild('id_notepad', $_GET["id_notepad"]);
-        $notes = $xml->addChild('notes', '');
-        http_response_code(401);
-    }
-    $stmt->close();
-
-    if ($_GET["mod"] == "xml") {
-        header('Content-Type: application/xml');
-        echo $xml->asXML();
-    } else if ($_GET["mod"] == "json") {
-        header('Content-Type: application/json');
-        echo json_encode($xml);
-    }
-} else {
-    http_response_code(400);
-}
-
-}else{
-    http_response_code(401);
-}
-
-?>
+ 
+         if ($stmt->execute()) {
+             $notes_result = $stmt->get_result();
+ 
+             $xml->addChild('success', 'true');
+             $xml->addChild('error', '');
+             $xml->addChild('id_notepad', $_GET["id_notepad"] ?? '');
+             $notes = $xml->addChild('notes');
+ 
+             while ($note_row = $notes_result->fetch_assoc()) {
+                 $note = $notes->addChild('Note');
+                 $note->addChild('id', $note_row['id']);
+                 $note->addChild('title', htmlspecialchars($note_row['titolo']));
+                 $note->addChild('body', htmlspecialchars($note_row['corpo']));
+             }
+ 
+             http_response_code(200);
+         } else {
+             $xml->addChild('success', 'false');
+             $xml->addChild('error', 'Error during the reading');
+             $xml->addChild('id_notepad', $_GET["id_notepad"] ?? '');
+             $xml->addChild('notes', '');
+             http_response_code(500);
+         }
+ 
+         $stmt->close();
+ 
+         if ($_GET["mod"] == "xml") {
+             header('Content-Type: application/xml');
+             echo $xml->asXML();
+         } else {
+             header('Content-Type: application/json');
+             echo json_encode($xml);
+         }
+ 
+     } else {
+         http_response_code(400);
+     }
+ 
+ } else {
+     http_response_code(401);
+ }
+ ?>
