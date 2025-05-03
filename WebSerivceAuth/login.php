@@ -61,6 +61,12 @@ if ($result->num_rows > 0) {
 
         $token = JWT::encode($payload, $secret_key, 'HS256');
 
+        $updateSql = "UPDATE users SET token = ? WHERE id = ?";
+        $updateStmt = $auth_conn->prepare($updateSql);
+        $updateStmt->bind_param("si", $token, $user['id']);
+        $updateStmt->execute();
+        $updateStmt->close();
+
         echo json_encode([
             'message' => 'Login riuscito',
             'token' => $token,
