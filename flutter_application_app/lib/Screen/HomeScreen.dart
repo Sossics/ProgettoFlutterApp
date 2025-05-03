@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TokenStorageService _tokenStorageService = TokenStorageService();
+  // ignore: unused_field
   String? _token;
   String _username = "Utente";
   int _selectedIndex = 0;
