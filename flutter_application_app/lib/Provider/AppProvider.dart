@@ -92,13 +92,22 @@ class AppProvider with ChangeNotifier {
     return response != null && response['success'] == 'true';
   }
 
-  Future<void> fetchNotes() async {
-    _isLoading = true;
-    _hasError = false;
-    notifyListeners();
+  Future<void> fetchNotes({int? idNotepad, String? mod}) async {
+  _isLoading = true;
+  _hasError = false;
+  notifyListeners();
 
-    try {
-      final response = await _apiService.getRequest(NotelyApiConstants.NoteEndpoint);
+  try {
+    String url = NotelyApiConstants.NoteEndpoint;
+
+    if (idNotepad != null) {
+      url += "?id_notepad=$idNotepad";
+    }
+    if (mod != null) {
+      url += (idNotepad != null ? "&" : "?") + "mod=$mod";
+    }
+
+    final response = await _apiService.getRequest(url);
 
       if (response != null && response['success'] == 'true') {
         var notesData = response['notes']['Note'];
