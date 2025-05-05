@@ -72,10 +72,12 @@ if (isset($_GET["id_user"]) && isset($_GET["mod"])) {
         echo json_encode($xml);
     }
 } else {
+    echo "Missing parameters. Required: id_user, mod";
     http_response_code(400);
 }
 
 }else{
+    echo "Token non valido";
     http_response_code(401);
 }
 
