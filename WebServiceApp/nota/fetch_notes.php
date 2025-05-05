@@ -9,7 +9,7 @@
  * 
  *  I parametri richiesti sono:
  *      @param mod: formato di risposta (xml o json)
- *      @param id_notepad: l'id del blocco appunti associato
+ *      @param id_notepad: l'id del blocco appunti associato (Facoltativo)
  * 
  *   La risposta è in formato xml o json a seconda del parametro mod e restituisce il risultato dell'operazione
  * 
@@ -53,22 +53,20 @@
     
         if (!empty($_GET["id_notepad"])) {
             // Note da un blocco specifico in cui l'utente è l'autore
-            $sql = "SELECT n.* 
+            $sql = "SELECT n.*
                     FROM nota n
                     INNER JOIN blocco b ON b.id = n.id_blocco
-                    LEFT JOIN appartiene a ON a.id_nota = n.id
-                    WHERE n.id_blocco = ? AND (b.id_utente = ? OR a.id_utente = ?)";
+                    WHERE n.id_blocco = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iii", $_GET["id_notepad"], $userId, $userId);  // Controllo se l'utente è l'autore o se la nota è condivisa
+            $stmt->bind_param("i", $_GET["id_notepad"]);  // Controllo se l'utente è l'autore o se la nota è condivisa
         } else {
             // Tutte le note dell'utente (da tutti i blocchi che ha creato o che sono stati condivisi con lui)
             $sql = "SELECT n.* 
                     FROM nota n
-                    INNER JOIN blocco b ON b.id = n.id_blocco
-                    LEFT JOIN appartiene a ON a.id_nota = n.id
-                    WHERE b.id_utente = ? OR a.id_utente = ?";
+                    JOIN blocco b ON b.id = n.id_blocco
+                    WHERE b.id_utente = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $userId, $userId);  // Controllo se l'utente è l'autore del blocco o se la nota è stata condivisa
+            $stmt->bind_param("i", $userId);  // Controllo se l'utente è l'autore del blocco o se la nota è stata condivisa
         }
  
          if ($stmt->execute()) {
@@ -94,8 +92,37 @@
              $xml->addChild('notes', '');
              http_response_code(500);
          }
- 
+
          $stmt->close();
+
+         if (empty($_GET["id_notepad"])) {
+
+            //recupera le note condivise con un utente
+            $sql2 = "SELECT n.*, a.permesso
+                    FROM nota n
+                    INNER JOIN appartiene a ON a.id_nota = n.id
+                    WHERE a.id_utente = ?";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->bind_param("i", $userId);  // Controllo se l'utente è l'autore o se la nota è condivisa
+            $shared_notes = $xml->addChild('SharedNotes');
+
+            if ($stmt2->execute()) {
+                $shared_result = $stmt2->get_result();
+                while ($shared_row = $shared_result->fetch_assoc()) {
+                    $note = $shared_notes->addChild('SharedNote');
+                    $note->addChild('id', $shared_row['id']);
+                    $note->addChild('title', htmlspecialchars($shared_row['titolo']));
+                    $note->addChild('body', htmlspecialchars($shared_row['corpo']));
+                    $note->addChild('pex', $shared_row['permesso']);
+                }
+    
+                http_response_code(200);
+            } else {
+                $xml->addChild('notes', '');
+                http_response_code(500);
+            }
+            
+         }
  
          if ($_GET["mod"] == "xml") {
              header('Content-Type: application/xml');
