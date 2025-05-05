@@ -69,8 +69,37 @@ if (isset($_GET["id_user"]) && isset($_GET["mod"])) {
         echo $xml->asXML();
     } else if ($_GET["mod"] == "json") {
         header('Content-Type: application/json');
-        echo json_encode($xml);
+    
+        $json = [
+            "success" => "true",
+            "error" => [],
+            "id_user" => $_GET["id_user"],
+            "notepads" => []
+        ];
+    
+        $stmt = $conn->prepare("SELECT * FROM blocco WHERE id_utente=?");
+        $stmt->bind_param("i", $_GET["id_user"]);
+    
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $json["notepads"][] = [
+                    "id" => $row["id"],
+                    "title" => $row["titolo"],
+                    "Description" => $row["descrizione"]
+                ];
+            }
+            http_response_code(200);
+        } else {
+            $json["success"] = "false";
+            $json["error"] = "Errore nella lettura";
+            http_response_code(401);
+        }
+    
+        $stmt->close();
+        echo json_encode($json);
     }
+    
 } else {
     echo "Missing parameters. Required: id_user, mod";
     http_response_code(400);
