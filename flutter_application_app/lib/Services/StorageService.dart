@@ -22,6 +22,10 @@ class StorageService {
     await _storage.write(key: 'mod', value: 'json');
   }
 
+  Future<void> initStorage() async {
+    await _storage.write(key: 'mod', value: 'json');
+  }
+
   // Recupera il token
   Future<String?> getMod() async {
     return await _storage.read(key: 'mod');
