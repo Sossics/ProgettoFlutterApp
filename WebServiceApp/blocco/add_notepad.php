@@ -23,6 +23,7 @@
 require '../utils/db.php';
 
 if($_SERVER["REQUEST_METHOD"] != "POST") {
+    echo "Method not allowed. Only POST is allowed";
     http_response_code(405);
     exit;
 }else if(verifica_token()){
@@ -59,10 +60,12 @@ if (isset($_POST["title"]) && isset($_POST["id_user"]) && isset($_POST["descript
         echo json_encode($xml);
     }
 } else {
+    echo "Missing parameters. Required: id_user, title, description, mod";
     http_response_code(400);
 }
 
 }else{
+    echo "Token non valido";
     http_response_code(401);
 }
 

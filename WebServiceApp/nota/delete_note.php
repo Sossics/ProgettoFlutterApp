@@ -23,6 +23,7 @@ require '../utils/db.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 if($_SERVER["REQUEST_METHOD"] != "DELETE") {
+    echo "Method not allowed. Use DELETE method.";
     http_response_code(405);
     exit;
 }else if(verifica_token()){
@@ -57,10 +58,12 @@ if (isset($data["id_note"]) && isset($data["mod"])) {
         echo json_encode($xml);
     }
 } else {
+    echo "Missing parameters. Required: id_note, mod";
     http_response_code(400);
 }
 
 }else{
+    echo "Token non valido";
     http_response_code(401);
 }
 

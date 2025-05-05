@@ -25,6 +25,7 @@
  use Firebase\JWT\Key;
  
  if ($_SERVER["REQUEST_METHOD"] != "GET") {
+    echo "Method not allowed. Use GET method.";
      http_response_code(405);
      exit;
  } elseif (verifica_token()) {
@@ -33,6 +34,7 @@
      $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
  
      if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
+        echo "Token non valido. Autenticazione fallita.";
          http_response_code(401);
          exit;
      }
@@ -44,6 +46,7 @@
          $decoded = JWT::decode($token, new Key($secret_key, 'HS256'));
          $userId = $decoded->uid;
      } catch (Exception $e) {
+        echo "Token non valido. Errore: " . $e->getMessage();
          http_response_code(401);
          exit;
      }
@@ -133,10 +136,12 @@
          }
  
      } else {
+            echo "Missing parameters. Required: mod";        
          http_response_code(400);
      }
  
  } else {
+        echo "Token non valido";
      http_response_code(401);
  }
  ?>

@@ -25,6 +25,7 @@ require '../utils/db.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 if($_SERVER["REQUEST_METHOD"] != "PUT") {
+    echo "Method not allowed. Use PUT method.";
     http_response_code(405);
     exit;
 }else if(verifica_token()){
@@ -59,10 +60,12 @@ if($_SERVER["REQUEST_METHOD"] != "PUT") {
             echo json_encode($xml);
         }
     } else {
+        echo "Missing parameters. Required: id, name, surname, mod";
         http_response_code(400);
     }
 
 }else{
+    echo "Token non valido";
     http_response_code(401);
 }
 

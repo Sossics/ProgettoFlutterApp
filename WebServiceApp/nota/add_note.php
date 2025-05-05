@@ -23,6 +23,7 @@
 require '../utils/db.php';
 
 if($_SERVER["REQUEST_METHOD"] != "POST") {
+    echo "Method not allowed. Only POST is allowed";
     http_response_code(405);
     exit;
 }else if(verifica_token()){
@@ -57,10 +58,12 @@ if (isset($_POST["id_notepad"]) && isset($_POST["title"]) && isset($_POST["body"
         echo json_encode($xml);
     }
 } else {
+    echo "Parametri non validi";
     http_response_code(400);
 }
 
 }else{
+    echo "Token non valido";
     http_response_code(401);
 }
 

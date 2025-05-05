@@ -67,6 +67,7 @@ if($_SERVER["REQUEST_METHOD"] != "POST") {
         echo json_encode($xml);
     }
 } else {
+    echo "Missing parameters. Required: email, name, surname, mod";
     http_response_code(400);
 }
 

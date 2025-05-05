@@ -21,6 +21,7 @@
 require '../utils/db.php';
 
 if($_SERVER["REQUEST_METHOD"] != "GET") {
+    echo "Method not allowed. Use GET method.";
     http_response_code(405);
     exit;
 }else if(verifica_token()){

@@ -21,6 +21,7 @@
 require '../utils/db.php';
 
 if($_SERVER["REQUEST_METHOD"] != "GET") {
+    echo "Method not allowed. Use GET method.";
     http_response_code(405);
     exit;
 }else if(verifica_token()){
@@ -65,10 +66,12 @@ if (isset($_GET["id_notepad"]) && isset($_GET["mod"])) {
         echo json_encode($xml);
     }
 } else {
+    echo "Missing parameters. Required: id_notepad, mod";
     http_response_code(400);
 }
 
 }else{
+    echo "Token non valido";
     http_response_code(401);
 }
 
