@@ -67,14 +67,14 @@ class AppProvider with ChangeNotifier {
   Future<bool> editNoteTitle(int idNote, String newTitle) async {
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_TITLE}");
-    final response = await _apiService.putRequest(NotelyApiConstants.EDIT_NOTE_TITLE, {"id": idNote, "title": newTitle});
+    final response = await _apiService.patchRequest(NotelyApiConstants.EDIT_NOTE_TITLE, {"id": idNote, "title": newTitle});
     return response != null && response['success'] == 'true';
   }
 
   Future<bool> editNoteBody(int idNote, String newBody) async {
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_BODY}");
-    final response = await _apiService.putRequest(NotelyApiConstants.EDIT_NOTE_BODY, {"id": idNote, "body": newBody});
+    final response = await _apiService.patchRequest(NotelyApiConstants.EDIT_NOTE_BODY, {"id": idNote, "body": newBody});
     return response != null && response['success'] == 'true';
   }
 
