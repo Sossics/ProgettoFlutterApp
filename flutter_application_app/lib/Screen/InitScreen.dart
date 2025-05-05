@@ -16,9 +16,15 @@ class _InitScreenState extends State<InitScreen> {
 
   @override
   void initState() {
+    print("InitScreen: initState() called");
     super.initState();
-    _StorageService.setMod();
-    _checkToken();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    print("InitScreen: _initializeApp() called");
+    await _StorageService.initStorage();
+    await _checkToken();
   }
 
   Future<void> _checkToken() async {
