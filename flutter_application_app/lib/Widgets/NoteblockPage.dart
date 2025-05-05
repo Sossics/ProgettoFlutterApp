@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
-import 'package:flutter_application_app/Widgets/NoteCard.dart';
+import 'package:flutter_application_app/Widgets/NoteblockCard.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -9,10 +9,10 @@ class NoteblockPage extends StatefulWidget {
   const NoteblockPage({super.key});
 
   @override
-  State<NoteblockPage> createState() => _NotesPageState();
+  State<NoteblockPage> createState() => _NoteblockPageState();
 }
 
-class _NotesPageState extends State<NoteblockPage> {
+class _NoteblockPageState extends State<NoteblockPage> {
 
   final StorageService _StorageService = StorageService();
   int? _uid;
@@ -46,23 +46,23 @@ class _NotesPageState extends State<NoteblockPage> {
     }
 
     if (appProvider.hasError) {
-      return const Center(child: Text('Errore nel caricamento delle note.'));
+      return const Center(child: Text('Errore nel caricamento dei blocchi note.'));
     }
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 600;
-        final notes = appProvider.notes;
+        final notepads = appProvider.notepads;
 
         if (!isWide) {
           // Mobile layout
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: notes.length,
+            itemCount: notepads.length,
             itemBuilder: (context, index) {
-              final note = notes[index];
-              return NoteCard(
-                id: note['id'] ?? '0',
+              final note = notepads[index];
+              return NoteblockCard(
+                id: (note['id'] ?? 0).toString(),
                 title: note['title'] ?? 'No Title',
                 body: note['body'] ?? '',
               );
@@ -81,11 +81,11 @@ class _NotesPageState extends State<NoteblockPage> {
               crossAxisSpacing: 16,
               childAspectRatio: 1.4,
             ),
-            itemCount: notes.length,
+            itemCount: notepads.length,
             itemBuilder: (context, index) {
-              final note = notes[index];
-              return NoteCard(
-                id: note['id'] ?? '0',
+              final note = notepads[index];
+              return NoteblockCard(
+                id: (note['id'] ?? 0).toString(),
                 title: note['title'] ?? 'No Title',
                 body: note['body'] ?? '',
               );
