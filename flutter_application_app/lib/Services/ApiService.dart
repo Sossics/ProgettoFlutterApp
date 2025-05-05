@@ -93,6 +93,27 @@ class ApiService {
     }
   }
 
+  Future<Map<String, dynamic>?> patchRequest(
+    String url,
+    Map<String, dynamic> body,
+  ) async {
+    await _waitUntilReady();
+    print("REQUEST URL: PATCH " + url);
+    print("REQUEST Headers: " + headers.toString());
+    print("REQUEST Body: " + body.toString());
+    try {
+      final response = await http.patch(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+      return _handleResponse(response);
+    } catch (e) {
+      print("Errore nella richiesta PATCH: $e");
+      return null;
+    }
+  }
+
   Future<Map<String, dynamic>?> deleteRequest(String url) async {
     await _waitUntilReady();
     try {
