@@ -6,7 +6,7 @@ import 'package:flutter_application_app/Screen/HomeScreen.dart';
 
 class AuthProvider with ChangeNotifier {
   final ApiService _apiService = ApiService();
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final StorageService _StorageService = StorageService();
 
   Future<void> login(
     BuildContext context,
@@ -26,7 +26,7 @@ class AuthProvider with ChangeNotifier {
       print("Username: ${response['username']}");
       print("Email: ${response['email']}");
       print("Salvo il token nella memoria...");
-      await _tokenStorageService.saveToken(response['token']);
+      await _StorageService.saveToken(response['token']);
       print("Token salvato con successo.");
 
       // Naviga alla HomeScreen

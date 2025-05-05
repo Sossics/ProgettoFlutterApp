@@ -3,10 +3,10 @@ import 'package:flutter_application_app/Services/TokenStorageService.dart';
 import 'package:flutter_application_app/Screen/WelcomeScreen.dart';
 
 class AccountPage extends StatelessWidget {
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final StorageService _StorageService = StorageService();
 
   Future<void> _logout(BuildContext context) async {
-    await _tokenStorageService.deleteToken();
+    await _StorageService.deleteToken();
 
     Navigator.pushReplacement(
       context,

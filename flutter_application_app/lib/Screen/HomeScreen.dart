@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final StorageService _StorageService = StorageService();
   // ignore: unused_field
   String? _token;
   String _username = "Utente";
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadToken() async {
-    String? token = await _tokenStorageService.getToken();
+    String? token = await _StorageService.getToken();
     // _tokenStorageService.deleteToken();
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);

@@ -6,7 +6,7 @@ import 'package:flutter_application_app/Services/TokenStorageService.dart';
 import 'dart:async';
 
 class ApiService {
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final StorageService _StorageService = StorageService();
   String? TOKEN = "Bearer ";
   late Map<String, String> headers;
   final Completer<void> _initCompleter = Completer<void>();
@@ -19,7 +19,7 @@ class ApiService {
 
   Future<void> _initialize() async {
     try {
-      TOKEN = 'Bearer ' + (await _tokenStorageService.getToken() ?? '');
+      TOKEN = 'Bearer ' + (await _StorageService.getToken() ?? '');
       print("TOKEN: $TOKEN");
       headers = {'Content-Type': 'application/json', 'Authorization': TOKEN!};
       _initCompleter.complete();

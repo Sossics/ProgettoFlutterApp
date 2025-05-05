@@ -12,7 +12,7 @@ class InitScreen extends StatefulWidget {
 }
 
 class _InitScreenState extends State<InitScreen> {
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final StorageService _StorageService = StorageService();
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _InitScreenState extends State<InitScreen> {
   }
 
   Future<void> _checkToken() async {
-    final token = await _tokenStorageService.getToken();
+    final token = await _StorageService.getToken();
 
     if (token != null && token.isNotEmpty && !JwtDecoder.isExpired(token)) {
       // Token valido → vai alla Home
