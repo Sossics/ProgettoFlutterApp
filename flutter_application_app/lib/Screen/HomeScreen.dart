@@ -6,6 +6,7 @@ import 'package:flutter_application_app/Widgets/NotesPage.dart';
 import 'package:flutter_application_app/Widgets/CustomSideBar.dart';
 import 'package:flutter_application_app/Widgets/HeaderBar.dart';
 import 'package:flutter_application_app/Widgets/AccountPage.dart';
+import 'package:flutter_application_app/Widgets/NoteblockPage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
 Widget _buildWideLayout() {
   final List<Widget> _desktopPages = [
     const NotesPage(),
-    Center(child: Text("Noteblocks Page")),
+    const NoteblockPage(),
     Center(child: Text("Sharing Page")),
     AccountPage(),
   ];
@@ -113,7 +114,7 @@ Widget _buildWideLayout() {
   Widget _buildMobileContent() {
     final List<Widget> _mobilePages = [
       const NotesPage(),
-      Center(child: Text("Noteblocks Page")),
+      const NoteblockPage(),
       Center(child: Text("Sharing Page")),
       AccountPage(),
     ];
