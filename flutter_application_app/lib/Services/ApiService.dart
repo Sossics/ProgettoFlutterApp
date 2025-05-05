@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // ignore: unused_import
 import 'package:flutter_application_app/Constants/AuthenticationApiConstants.dart';
-import 'package:flutter_application_app/Services/TokenStorageService.dart';
+import 'package:flutter_application_app/Services/StorageService.dart';
 import 'dart:async';
 
 class ApiService {

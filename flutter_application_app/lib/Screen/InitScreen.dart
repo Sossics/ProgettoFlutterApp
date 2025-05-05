@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Screen/WelcomeScreen.dart';
 import 'package:flutter_application_app/Screen/HomeScreen.dart';
-import 'package:flutter_application_app/Services/TokenStorageService.dart';
+import 'package:flutter_application_app/Services/StorageService.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class InitScreen extends StatefulWidget {
@@ -17,6 +17,7 @@ class _InitScreenState extends State<InitScreen> {
   @override
   void initState() {
     super.initState();
+    _StorageService.setMod();
     _checkToken();
   }
 
