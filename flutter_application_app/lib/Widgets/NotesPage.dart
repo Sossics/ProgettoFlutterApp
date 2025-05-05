@@ -14,7 +14,7 @@ class _NotesPageState extends State<NotesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<AppProvider>().fetchNotes(mod: 'json'));
+    Future.microtask(() => context.read<AppProvider>().fetchNotes());
   }
 
   @override

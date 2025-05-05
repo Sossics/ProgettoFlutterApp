@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_application_app/Constants/AuthenticationApiConstants.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
 import 'dart:async';
+import 'package:xml2json/xml2json.dart';
 
 class ApiService {
   final StorageService _StorageService = StorageService();
@@ -127,10 +128,19 @@ class ApiService {
     }
   }
 
-  Map<String, dynamic>? _handleResponse(http.Response response) {
+  Future<Map<String, dynamic>?> _handleResponse(http.Response response) async {
     print("Server Response: ${response.body}");
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      if(await _StorageService.getMod() == "json"){
+        return jsonDecode(response.body);
+      }else if(await _StorageService.getMod() == "xml"){
+
+        final Xml2Json xml2json = Xml2Json();
+        xml2json.parse(response.body);
+        final json = jsonDecode(xml2json.toParker());
+        return json;
+        
+      }
     } else {
       print("Errore HTTP ${response.statusCode}: ${response.body}");
       return null;

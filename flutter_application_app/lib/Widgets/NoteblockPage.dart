@@ -22,7 +22,7 @@ class _NotesPageState extends State<NoteblockPage> {
   void initState() {
     super.initState();
     _loadToken();
-    Future.microtask(() => context.read<AppProvider>().fetchNotepads(mod: 'json', userID: _uid));
+    Future.microtask(() => context.read<AppProvider>().fetchNotepads());
   }
 
   Future<void> _loadToken() async {

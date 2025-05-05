@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Services/ApiService.dart';
 import 'package:flutter_application_app/Constants/NotelyApiConstants.dart';
+import 'package:flutter_application_app/Services/StorageService.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AppProvider with ChangeNotifier {
   final ApiService _apiService = ApiService();
+  final StorageService _StorageService = StorageService();
+
+  String? mod;
+   String? _token;
+  int userID = -1;
 
   AppProvider() {
     _initialize();
   }
 
   Future<void> _initialize() async {
+    mod = await _StorageService.getMod();
+    if (_token != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(_token!);
+      userID = decodedToken['uid'] ?? -1;
+      print("\n\n-------------------------------------------" + userID.toString());
+    }
     await _apiService.ready;
   }
+
 
   // Variabili per lo stato
   List<Map<String, dynamic>> _notes = [];
@@ -24,7 +38,7 @@ class AppProvider with ChangeNotifier {
 
   // ==================== NOTEPAD ====================
 
-  Future<List<dynamic>?> fetchNotepads({String? mod, int? userID}) async {
+  Future<List<dynamic>?> fetchNotepads() async {
     print("Fetching notepads...");
     print("Using Endpoint: ${NotelyApiConstants.FETCH_NOTEPAD}");
     final response = await _apiService.getRequest(NotelyApiConstants.FETCH_NOTEPAD + "?mod=$mod");
@@ -92,7 +106,7 @@ class AppProvider with ChangeNotifier {
     return response != null && response['success'] == 'true';
   }
 
-  Future<void> fetchNotes({int? idNotepad, String? mod}) async {
+  Future<void> fetchNotes({int? idNotepad}) async {
   _isLoading = true;
   _hasError = false;
   notifyListeners();
