@@ -1,0 +1,107 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_app/Provider/AppProvider.dart';
+import 'package:provider/provider.dart';
+
+class NoteEditPage extends StatefulWidget {
+  final int noteId;
+  final String title;
+  final String body;
+
+  const NoteEditPage({
+    super.key,
+    required this.noteId,
+    required this.title,
+    required this.body,
+  });
+
+  @override
+  State<NoteEditPage> createState() => _NoteEditPageState();
+}
+
+class _NoteEditPageState extends State<NoteEditPage> {
+  late TextEditingController _titleController;
+  late TextEditingController _bodyController;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.title);
+    _bodyController = TextEditingController(text: widget.body);
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _bodyController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveNote() async {
+    final appProvider = context.read<AppProvider>();
+    final successTitle = await appProvider.editNoteTitle(
+      widget.noteId,
+      _titleController.text,
+    );
+    final successBody = await appProvider.editNoteBody(
+      widget.noteId,
+      _bodyController.text,
+    );
+    print("Nota aggiornata: ${_titleController.text}, ${_bodyController.text}");
+
+    if (successTitle && successBody) {
+      Navigator.pop(context);
+    } else {
+      // Puoi anche mostrare un errore con uno SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Errore nel salvataggio della nota")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Modifica Nota"),
+        actions: [
+          IconButton(icon: const Icon(Icons.save), onPressed: _saveNote),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Titolo",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                hintText: "Inserisci il titolo",
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              "Contenuto",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            TextField(
+              controller: _bodyController,
+              maxLines: 10,
+              decoration: const InputDecoration(
+                hintText: "Inserisci il contenuto della nota",
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _saveNote,
+              child: const Text("Salva Modifiche"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
