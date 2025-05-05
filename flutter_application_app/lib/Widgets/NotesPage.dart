@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
+import 'package:flutter_application_app/Widgets/NoteCard.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -13,15 +14,13 @@ class _NotesPageState extends State<NotesPage> {
   @override
   void initState() {
     super.initState();
-    // Carica le note una volta che la pagina è stata inizializzata
     Future.microtask(() => context.read<AppProvider>().fetchNotes(mod: 'json'));
   }
 
   @override
   Widget build(BuildContext context) {
-    // Ottieni lo stato dal provider
     final appProvider = context.watch<AppProvider>();
-    
+
     if (appProvider.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -30,19 +29,49 @@ class _NotesPageState extends State<NotesPage> {
       return const Center(child: Text('Errore nel caricamento delle note.'));
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: appProvider.notes.length,
-      itemBuilder: (context, index) {
-        final note = appProvider.notes[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: ListTile(
-            title: Text(note['title'] ?? 'No Title', style: const TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(note['body'] ?? ''),
-          ),
-        );
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth > 600;
+        final notes = appProvider.notes;
+
+        if (!isWide) {
+          // Mobile layout
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: notes.length,
+            itemBuilder: (context, index) {
+              final note = notes[index];
+              return NoteCard(
+                id: note['id'] ?? '0',
+                title: note['title'] ?? 'No Title',
+                body: note['body'] ?? '',
+              );
+            },
+          );
+        } else {
+          // Wide screen layout
+          int crossAxisCount = 2;
+          if (constraints.maxWidth > 1000) crossAxisCount = 3;
+
+          return GridView.builder(
+            padding: const EdgeInsets.all(16),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1.4,
+            ),
+            itemCount: notes.length,
+            itemBuilder: (context, index) {
+              final note = notes[index];
+              return NoteCard(
+                id: note['id'] ?? '0',
+                title: note['title'] ?? 'No Title',
+                body: note['body'] ?? '',
+              );
+            },
+          );
+        }
       },
     );
   }
