@@ -24,10 +24,10 @@ class AppProvider with ChangeNotifier {
 
   // ==================== NOTEPAD ====================
 
-  Future<List<dynamic>?> fetchNotepads() async {
+  Future<List<dynamic>?> fetchNotepads({String? mod, int? userID}) async {
     print("Fetching notepads...");
     print("Using Endpoint: ${NotelyApiConstants.FETCH_NOTEPAD}");
-    final response = await _apiService.getRequest(NotelyApiConstants.FETCH_NOTEPAD);
+    final response = await _apiService.getRequest(NotelyApiConstants.FETCH_NOTEPAD + "?mod=$mod");
     if (response != null && response['success'] == 'true') {
       return response['notepads'];
     }
