@@ -57,7 +57,8 @@ class _NotesPageState extends State<NotesPage> {
         } else {
           // Wide screen layout
           int crossAxisCount = 2;
-          if (constraints.maxWidth > 1000) crossAxisCount = 3;
+          if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500) crossAxisCount = 3;
+          if (constraints.maxWidth > 1500) crossAxisCount = 4;
 
           return GridView.builder(
             padding: const EdgeInsets.all(16),
