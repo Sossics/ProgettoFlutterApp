@@ -16,7 +16,7 @@ class HeaderBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      color: Colors.grey.shade100,
+      color: const Color.fromARGB(0, 252, 221, 255),
       child: Row(
         children: [
           if (onBack != null)
@@ -38,8 +38,8 @@ class HeaderBar extends StatelessWidget {
           const SizedBox(width: 12),
           const CircleAvatar(
             radius: 18,
-            backgroundColor: Colors.blueAccent,
-            child: Icon(Icons.person, color: Colors.white),
+            backgroundColor: Color.fromARGB(173, 148, 9, 212),
+            child: Icon(Icons.person, color: Color.fromARGB(255, 255, 255, 255)),
           ),
         ],
       ),

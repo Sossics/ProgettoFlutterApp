@@ -135,11 +135,13 @@ class ApiService {
         return jsonDecode(response.body);
       }else if(await _StorageService.getMod() == "xml"){
 
+        //-------------------------------------------------------------   DA VEDERE   ----------------------
+
         final Xml2Json xml2json = Xml2Json();
         xml2json.parse(response.body);
         final json = jsonDecode(xml2json.toParker());
         return json;
-        
+
       }
     } else {
       print("Errore HTTP ${response.statusCode}: ${response.body}");

@@ -22,8 +22,8 @@ class SideBar extends StatelessWidget {
         padding: EdgeInsets.only(top: 24),
         child: CircleAvatar(
           radius: 20,
-          backgroundColor: Colors.blueAccent,
-          child: Icon(Icons.person, color: Colors.white),
+          backgroundColor: Color.fromARGB(173, 148, 9, 212),
+          child: Icon(Icons.person, color: Color.fromARGB(255, 255, 255, 255)),
         ),
       ),
       destinations: const [
