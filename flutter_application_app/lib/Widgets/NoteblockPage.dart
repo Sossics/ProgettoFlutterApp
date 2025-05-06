@@ -53,14 +53,18 @@ class _NoteblockPageState extends State<NoteblockPage> {
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 600;
         final notepads = appProvider.notepads;
-
+        print(notepads[0]);
         if (!isWide) {
           // Mobile layout
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: notepads.length,
+            itemCount: _StorageService.getMod() == "xml"
+                  ? notepads[0].length
+                  : notepads.length,
             itemBuilder: (context, index) {
-              final note = notepads[index];
+              final note = _StorageService.getMod() == "xml"
+                  ? notepads[0][index]
+                  : notepads[index];
               return NoteblockCard(
                 id: (note['id'] ?? 0).toString(),
                 title: note['title'] ?? 'No Title',
@@ -71,7 +75,8 @@ class _NoteblockPageState extends State<NoteblockPage> {
         } else {
           // Wide screen layout
           int crossAxisCount = 2;
-          if (constraints.maxWidth > 1000) crossAxisCount = 3;
+          if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500) crossAxisCount = 3;
+          if (constraints.maxWidth > 1500) crossAxisCount = 4;
 
           return GridView.builder(
             padding: const EdgeInsets.all(16),

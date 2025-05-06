@@ -17,14 +17,11 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<void> _initialize() async {
-    _mod = await _StorageService.getMod();
     _token = await _StorageService.getToken();
+    
     if (_token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(_token!);
       _userID = decodedToken['uid'] ?? -1;
-      print(
-        "\n\n-------------------------------------------" + _userID.toString(),
-      );
     }
     await _apiService.ready;
   }
@@ -48,6 +45,7 @@ class AppProvider with ChangeNotifier {
     _isLoading = true;
     _hasError = false;
     notifyListeners();
+    _mod = await _StorageService.getMod();
 
     try {
       print("Fetching notepads...");
@@ -163,6 +161,8 @@ class AppProvider with ChangeNotifier {
     _isLoading = true;
     _hasError = false;
     notifyListeners();
+    _mod = await _StorageService.getMod();
+
 
     try {
       String url = NotelyApiConstants.NoteEndpoint;

@@ -137,10 +137,24 @@ class ApiService {
 
         //-------------------------------------------------------------   DA VEDERE   ----------------------
 
-        final Xml2Json xml2json = Xml2Json();
-        xml2json.parse(response.body);
-        final json = jsonDecode(xml2json.toParker());
-        return json;
+          Future<Map<String, dynamic>> convertXmlToJson(String xmlResponse) async {
+            final Xml2Json xml2json = Xml2Json();
+            xml2json.parse(xmlResponse);
+            final jsonString = xml2json.toParker();
+            final Map<String, dynamic> json = jsonDecode(jsonString);
+
+            // Controlla se il contenitore "result" esiste e restituisci il contenuto interno
+            if (json.containsKey('result')) {
+              final result = json['result'];
+              print("\n\n\njson: $result");
+              return result;
+            } else {
+              print("\n\n\njson: $json");
+              return json;
+            }
+          }
+
+         return await convertXmlToJson(response.body);
 
       }
     } else {
