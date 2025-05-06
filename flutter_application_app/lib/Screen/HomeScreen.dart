@@ -100,7 +100,6 @@ Widget _buildWideLayout() {
               username: _username,
               onBack: null, // o () => Navigator.pop(context) se serve
             ),
-            const Divider(height: 1),
             Expanded(
               child: _desktopPages[_selectedIndex],
             ),
@@ -112,7 +111,7 @@ Widget _buildWideLayout() {
 }
 
   Widget _buildMobileContent() {
-    final List<Widget> _mobilePages = [
+    final List<Widget> mobilePages = [
       const NotesPage(),
       const NoteblockPage(),
       Center(child: Text("Sharing Page")),
@@ -120,17 +119,44 @@ Widget _buildWideLayout() {
     ];
 
     return Scaffold(
-      body: _mobilePages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onBottomNavTapped,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.note), label: "Notes"),
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Noteblocks"),
-          BottomNavigationBarItem(icon: Icon(Icons.share), label: "Sharing"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+      appBar: AppBar(
+        //inserisci un padding on top
+        toolbarHeight: 80,
+        //rendila scollabile
+        toolbarOpacity: 0.9,
+        backgroundColor: const Color.fromARGB(0, 252, 221, 255),
+        title: HeaderBar(
+          pageTitle: _pageTitles[_selectedIndex],
+          username: _username,
+          onBack: null, // o () => Navigator.pop(context) se serve
+        ),
+      ),
+      body: mobilePages[_selectedIndex],
+      bottomNavigationBar: NavigationBar(
+        indicatorColor: const Color.fromARGB(38, 84, 2, 161),
+        onDestinationSelected: _onBottomNavTapped,
+        selectedIndex: _selectedIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.note),
+            icon: Icon(Icons.note),
+            label: 'Notes',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.dashboard),
+            icon: Icon(Icons.dashboard),
+            label: 'Notepads',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.share),
+            icon: Icon(Icons.share),
+            label: 'Sharing',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.person),
+            icon: Icon(Icons.person),
+            label: 'Account',
+          ),
         ],
       ),
     );

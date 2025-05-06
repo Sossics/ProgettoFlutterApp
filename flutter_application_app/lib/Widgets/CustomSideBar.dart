@@ -38,7 +38,7 @@ class SideBar extends StatelessWidget {
           icon: Icon(Icons.dashboard),
           label: Padding(
             padding: EdgeInsets.symmetric(vertical: 12.0),
-            child: Text("Noteblocks"),
+            child: Text("Notepads"),
           ),
         ),
         NavigationRailDestination(

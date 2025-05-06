@@ -35,19 +35,25 @@ class _NotesPageState extends State<NotesPage> {
         final notes = appProvider.notes;
 
         if (!isWide) {
-          // Mobile layout
-          return ListView.builder(
+            // Mobile layout with 2 columns
+            return GridView.builder(
             padding: const EdgeInsets.all(16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1.4,
+            ),
             itemCount: notes.length,
             itemBuilder: (context, index) {
               final note = notes[index];
               return NoteCard(
-                id: note['id'] ?? '0',
-                title: note['title'] ?? 'No Title',
-                body: note['body'] ?? '',
+              id: note['id'] ?? '0',
+              title: note['title'] ?? 'No Title',
+              body: note['body'] ?? '',
               );
             },
-          );
+            );
         } else {
           // Wide screen layout
           int crossAxisCount = 2;

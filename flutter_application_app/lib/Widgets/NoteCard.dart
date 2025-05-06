@@ -1,5 +1,8 @@
 // lib/Widgets/NoteCard.dart
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/Style/Colors.dart';
 import 'package:flutter_application_app/Widgets/NoteEditPage.dart'; // Importa la nuova pagina di modifica
 
 class NoteCard extends StatelessWidget {
@@ -17,8 +20,10 @@ class NoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: white,
+     // color: Color.fromARGB(255, 106, 36, 187),
       margin: const EdgeInsets.all(4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide.none),
       child: GestureDetector(
         onTap: () {
           // Naviga alla pagina di modifica della nota passando i dati
