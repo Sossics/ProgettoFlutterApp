@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
 import 'package:flutter_application_app/Widgets/NoteblockCard.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
-import 'package:flutter_application_app/Constants/HTTPmode.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class NoteblockPage extends StatefulWidget {
@@ -27,8 +26,7 @@ class _NoteblockPageState extends State<NoteblockPage> {
 
   Future<void> _loadToken() async {
     String? token = await _storageService.getToken();
-    final modEnum = await _storageService.getMod();
-    mod = modEnum?.value;
+    mod = await _storageService.getMod();
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       setState(() {
