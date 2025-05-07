@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/Services/StorageService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
 
@@ -12,6 +13,8 @@ class CreateNotePage extends StatefulWidget {
 class _CreateNotePageState extends State<CreateNotePage> {
   late TextEditingController _titleController;
   late TextEditingController _bodyController;
+  final StorageService _storageService = StorageService();
+  String? mod;
   int? selectedNotepadId;
 
   @override
@@ -19,8 +22,13 @@ class _CreateNotePageState extends State<CreateNotePage> {
     super.initState();
     _titleController = TextEditingController();
     _bodyController = TextEditingController();
-
+    _loadMod();
     Future.microtask(() => context.read<AppProvider>().fetchNotepads());
+  }
+
+  Future<void> _loadMod() async {
+    mod = await _storageService.getMod();
+    setState(() {});
   }
 
   @override
@@ -32,7 +40,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
 
   Future<void> _createNote() async {
     final appProvider = context.read<AppProvider>();
-
+    
     if (selectedNotepadId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please select a Notepad")),
@@ -68,16 +76,23 @@ class _CreateNotePageState extends State<CreateNotePage> {
       return const Center(child: Text('Errore nel caricamento dei blocchi note.'));
     }
 
-    final notepads = appProvider.notepads[0]['Notepad'] ?? [];
+  print(mod);
+    final notepads;
+    if(mod == "xml"){
+      notepads = appProvider.notepads[0]['Notepad'] ?? [];
+    }else{
+      notepads = appProvider.notepads;
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Note"),
+        title: const Text("Create Notes"),
         actions: [
-          IconButton(
-            onPressed: _createNote,
-            icon: const Icon(Icons.save),
-          ),
+          FilledButton(
+              onPressed: _createNote,
+              child: const Text("Save"),
+            ),
+          Padding(padding: const EdgeInsets.only(right: 16)),
         ],
       ),
       body: Padding(
@@ -124,7 +139,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 });
               },
               items: notepads.map<DropdownMenuItem<int>>((notepad) {
-                // print(notepad);
+                 print(notepad);
                 int notepadId = int.tryParse(notepad['id'].toString()) ?? 0;
                 return DropdownMenuItem<int>(
                   value: notepadId,

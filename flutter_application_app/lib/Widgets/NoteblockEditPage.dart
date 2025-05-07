@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
 import 'package:provider/provider.dart';
 
-class NoteEditPage extends StatefulWidget {
-  final int noteId;
+class NoteblockEditPage extends StatefulWidget {
+  final int noteblockId;
   final String title;
   final String body;
 
-  const NoteEditPage({
+  const NoteblockEditPage({
     super.key,
-    required this.noteId,
+    required this.noteblockId,
     required this.title,
     required this.body,
   });
 
   @override
-  State<NoteEditPage> createState() => _NoteEditPageState();
+  State<NoteblockEditPage> createState() => _NoteblockEditPage();
 }
 
-class _NoteEditPageState extends State<NoteEditPage> {
+class _NoteblockEditPage extends State<NoteblockEditPage> {
   late TextEditingController _titleController;
   late TextEditingController _bodyController;
 
@@ -36,17 +36,17 @@ class _NoteEditPageState extends State<NoteEditPage> {
     super.dispose();
   }
 
-  Future<void> _saveNote() async {
+  Future<void> _saveNoteblock() async {
     final appProvider = context.read<AppProvider>();
-    final successTitle = await appProvider.editNoteTitle(
-      widget.noteId,
+    final successTitle = await appProvider.editNotepadTitle(
+      widget.noteblockId,
       _titleController.text,
     );
-    final successBody = await appProvider.editNoteBody(
-      widget.noteId,
+    final successBody = await appProvider.editNotepadBody(
+      widget.noteblockId,
       _bodyController.text,
     );
-    print("Notes upated: ${_titleController.text}, ${_bodyController.text}");
+    print("Notepad upated: ${_titleController.text}, ${_bodyController.text}");
 
     if (successTitle && successBody) {
       Navigator.pop(context, true);
@@ -56,38 +56,15 @@ class _NoteEditPageState extends State<NoteEditPage> {
       );
     }
   }
-  Future<void> _deleteNote() async {
-    final appProvider = context.read<AppProvider>();
-    final success = await appProvider.deleteNote(widget.noteId);
-    
-    print("Notes elimination: ${_titleController.text}, ${_bodyController.text}");
-
-    if (success) {
-      Navigator.pop(context, true);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error during deletion")),
-      );
-    }
-    
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Modify Notes"),
+        title: const Text("Modify Notepad"),
         actions: [
           FilledButton(
-              onPressed: _deleteNote,
-              child: const Text("Delete Note"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 221, 13, 78)),
-              ),
-            ),
-          Padding(padding: const EdgeInsets.only(right: 8)),
-          FilledButton(
-              onPressed: _saveNote,
+              onPressed: null,
               child: const Text("Save"),
             ),
           Padding(padding: const EdgeInsets.only(right: 16)),
@@ -111,14 +88,14 @@ class _NoteEditPageState extends State<NoteEditPage> {
             ),
             const SizedBox(height: 16),
             const Text(
-              "Content",
+              "Description",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             TextField(
               controller: _bodyController,
               maxLines: 10,
               decoration: const InputDecoration(
-                hintText: "Insert the content of the note",
+                hintText: "Insert the description of the notepad",
                 border: OutlineInputBorder(),
               ),
             ),

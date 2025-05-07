@@ -56,10 +56,11 @@ class _CreateNotepadPageState extends State<CreateNotepadPage> {
       appBar: AppBar(
         title: const Text("Create Notepad"),
         actions: [
-          IconButton(
-            onPressed: _createNotepad,
-            icon: const Icon(Icons.save),
-          ),
+          FilledButton(
+              onPressed: _createNotepad,
+              child: const Text("Create"),
+            ),
+          Padding(padding: const EdgeInsets.only(right: 16)),
         ],
       ),
       body: Padding(
@@ -86,10 +87,6 @@ class _CreateNotepadPageState extends State<CreateNotepadPage> {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _createNotepad,
-              child: const Text("Create Notepad"),
-            ),
           ],
         ),
       ),

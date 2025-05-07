@@ -115,12 +115,12 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>?> deleteRequest(String url) async {
+  Future<Map<String, dynamic>?> deleteRequest(String url, Map<String, dynamic> body,) async {
     await _waitUntilReady();
     try {
       print("REQUEST URL: DEL " + url);
       print("REQUEST Headers: " + headers.toString());
-      final response = await http.delete(Uri.parse(url), headers: headers);
+      final response = await http.delete(Uri.parse(url), headers: headers, body: jsonEncode(body));
       return _handleResponse(response);
     } catch (e) {
       print("Errore nella richiesta DELETE: $e");

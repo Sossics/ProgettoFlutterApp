@@ -1,6 +1,6 @@
 // lib/Widgets/NoteCard.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_application_app/Widgets/NoteEditPage.dart'; // Importa la nuova pagina di modifica
+import 'package:flutter_application_app/Widgets/NoteblockEditPage.dart'; // Importa la nuova pagina di modifica
 
 class NoteblockCard extends StatelessWidget {
   final String id; // Aggiungi una proprietà per l'ID
@@ -25,7 +25,7 @@ class NoteblockCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NoteEditPage(noteId: int.parse(id), title: title, body: body),
+              builder: (context) => NoteblockEditPage(noteblockId: int.parse(id), title: title, body: body),
             ),
           );
         },

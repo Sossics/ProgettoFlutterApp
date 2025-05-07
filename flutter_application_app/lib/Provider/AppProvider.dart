@@ -98,11 +98,22 @@ class AppProvider with ChangeNotifier {
     return response != null && response['success'] == 'true';
   }
 
+  Future<bool> editNotepadTitle(int idNotepad, String newTitle) async {
+    print("Editing notepad with ID: $idNotepad");
+    print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTEPAD_TITLE}");
+    final response = await _apiService.putRequest(
+      NotelyApiConstants.EDIT_NOTEPAD_BODY,
+      {"id": idNotepad, "title": newTitle},
+    );
+    return response != null && response['success'] == 'true';
+  }
+
   Future<bool> deleteNotepad(int idNotepad) async {
     print("Deleting notepad with ID: $idNotepad");
     print("Using Endpoint: ${NotelyApiConstants.DELETE_NOTEPAD}");
     final response = await _apiService.deleteRequest(
       "${NotelyApiConstants.DELETE_NOTEPAD}/$idNotepad",
+      {"id": idNotepad, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
@@ -156,10 +167,12 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> deleteNote(int idNote) async {
+    _initialize();
     print("Deleting note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.DELETE_NOTE}");
     final response = await _apiService.deleteRequest(
-      "${NotelyApiConstants.DELETE_NOTE}/$idNote",
+      "${NotelyApiConstants.DELETE_NOTE}", 
+      {"id_note": idNote, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
