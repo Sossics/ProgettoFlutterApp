@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<String> _pageTitles = [
     "Notes",
-    "Noteblocks",
+    "Notepads",
     "Sharing",
     "Account",
   ];

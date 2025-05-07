@@ -13,11 +13,9 @@ class NoteblockPage extends StatefulWidget {
 }
 
 class _NoteblockPageState extends State<NoteblockPage> {
-
-  final StorageService _StorageService = StorageService();
+  final StorageService _storageService = StorageService();
   int? _uid;
   String? mod;
-
 
   @override
   void initState() {
@@ -27,14 +25,12 @@ class _NoteblockPageState extends State<NoteblockPage> {
   }
 
   Future<void> _loadToken() async {
-    String? token = await _StorageService.getToken();
-    mod = await _StorageService.getMod();
-    // _tokenStorageService.deleteToken();
+    String? token = await _storageService.getToken();
+    mod = await _storageService.getMod();
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       setState(() {
         _uid = decodedToken['uid'] ?? 0;
-        print("UID: $_uid");
       });
     }
   }
@@ -51,63 +47,84 @@ class _NoteblockPageState extends State<NoteblockPage> {
       return const Center(child: Text('Errore nel caricamento dei blocchi note.'));
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isWide = constraints.maxWidth > 600;
-        final notepads = appProvider.notepads;
-        
-        if (!isWide) {
-          // Mobile layout
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
-            itemBuilder: (context, index) {
-              final note;
-              if (mod == "json") {
-                note = notepads[index];
-              }else{
-                note = notepads[0]['Notepad'][index];
-              }
-              print(note);
-              return NoteblockCard(
-                id: (note['id'] ?? 0).toString(),
-                title: note['title'] ?? 'No Title',
-                body: note['body'] ?? '',
-              );
-            },
-          );
-        } else {
-          // Wide screen layout
-          int crossAxisCount = 2;
-          if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500) crossAxisCount = 3;
-          if (constraints.maxWidth > 1500) crossAxisCount = 4;
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth > 600;
+          final notepads = appProvider.notepads;
 
-          return GridView.builder(
-            padding: const EdgeInsets.all(16),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              childAspectRatio: 1.4,
-            ),
-            itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
-            itemBuilder: (context, index) {
-              final note;
-              if (mod == "json") {
-                note = notepads[index];
-              }else{
-                note = notepads[0]['Notepad'][index];
-              }
-              print(note);
-              return NoteblockCard(
-                id: (note['id'] ?? 0).toString(),
-                title: note['title'] ?? 'No Title',
-                body: note['body'] ?? '',
+          if (!isWide) {
+            // Mobile layout
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
+              itemBuilder: (context, index) {
+                final note;
+                if (mod == "json") {
+                  note = notepads[index];
+                } else {
+                  note = notepads[0]['Notepad'][index];
+                }
+                return NoteblockCard(
+                  id: (note['id'] ?? 0).toString(),
+                  title: note['title'] ?? 'No Title',
+                  body: note['body'] ?? '',
+                );
+              },
+            );
+          } else {
+            // Wide screen layout
+            int crossAxisCount = 2;
+            if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500) crossAxisCount = 3;
+            if (constraints.maxWidth > 1500) crossAxisCount = 4;
+
+            return GridView.builder(
+              padding: const EdgeInsets.all(16),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.4,
+              ),
+              itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
+              itemBuilder: (context, index) {
+                final note;
+                if (mod == "json") {
+                  note = notepads[index];
+                } else {
+                  note = notepads[0]['Notepad'][index];
+                }
+                return NoteblockCard(
+                  id: (note['id'] ?? 0).toString(),
+                  title: note['title'] ?? 'No Title',
+                  body: note['body'] ?? '',
+                );
+              },
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your logic to add a new notebook here
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Add Notebook'),
+                content: const Text('Add notebook functionality goes here.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Close'),
+                  ),
+                ],
               );
             },
           );
-        }
-      },
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
