@@ -168,6 +168,7 @@ class AppProvider with ChangeNotifier {
 
   Future<bool> deleteNote(int idNote) async {
     _initialize();
+    _mod = await _StorageService.getMod();
     print("Deleting note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.DELETE_NOTE}");
     final response = await _apiService.deleteRequest(

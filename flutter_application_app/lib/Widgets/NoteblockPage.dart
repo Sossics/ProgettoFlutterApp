@@ -15,7 +15,7 @@ class NoteblockPage extends StatefulWidget {
 
 class _NoteblockPageState extends State<NoteblockPage> {
   final StorageService _storageService = StorageService();
-  int? _uid;
+  int? _uid = 0;
   String? mod;
 
   @override
