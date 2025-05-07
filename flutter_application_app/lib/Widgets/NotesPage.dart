@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
 import 'package:flutter_application_app/Widgets/NoteCard.dart';
+import 'package:flutter_application_app/Widgets/NoteEditPage.dart';
+import 'package:flutter_application_app/Widgets/CreateNotePage.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -52,13 +54,31 @@ class _NotesPageState extends State<NotesPage> {
                   id: note['id'] ?? '0',
                   title: note['title'] ?? 'No Title',
                   body: note['body'] ?? '',
+                  onTap: () async {
+                    final updated = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => NoteEditPage(
+                              noteId: int.parse(note['id'] ?? '0'),
+                              title: note['title'] ?? '',
+                              body: note['body'] ?? '',
+                            ),
+                      ),
+                    );
+
+                    if (updated == true && context.mounted) {
+                      await context.read<AppProvider>().fetchNotes();
+                    }
+                  },
                 );
               },
             );
           } else {
             // Wide screen layout
             int crossAxisCount = 2;
-            if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500) crossAxisCount = 3;
+            if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500)
+              crossAxisCount = 3;
             if (constraints.maxWidth > 1500) crossAxisCount = 4;
 
             return GridView.builder(
@@ -76,6 +96,23 @@ class _NotesPageState extends State<NotesPage> {
                   id: note['id'] ?? '0',
                   title: note['title'] ?? 'No Title',
                   body: note['body'] ?? '',
+                  onTap: () async {
+                    final updated = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => NoteEditPage(
+                              noteId: int.parse(note['id'] ?? '0'),
+                              title: note['title'] ?? '',
+                              body: note['body'] ?? '',
+                            ),
+                      ),
+                    );
+
+                    if (updated == true && context.mounted) {
+                      await context.read<AppProvider>().fetchNotes();
+                    }
+                  },
                 );
               },
             );
@@ -83,10 +120,15 @@ class _NotesPageState extends State<NotesPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your logic for adding a new note here
-          // For example, navigate to a new page or show a dialog
-          print('Add Note button pressed');
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateNotePage()),
+          );
+
+          if (result == true && context.mounted) {
+            context.read<AppProvider>().fetchNotes();
+          }
         },
         child: const Icon(Icons.add),
       ),
