@@ -42,6 +42,7 @@ class AppProvider with ChangeNotifier {
   // ==================== NOTEPAD ====================
 
   Future<void> fetchNotepads() async {
+    _initialize();
     _isLoading = true;
     _hasError = false;
     notifyListeners();
@@ -119,6 +120,7 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> editNoteTitle(int idNote, String newTitle) async {
+    _initialize();
     _mod = await _StorageService.getMod();
 
     print("Editing note with ID: $idNote");
@@ -131,6 +133,7 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> editNoteBody(int idNote, String newBody) async {
+    _initialize();
     _mod = await _StorageService.getMod();
 
     print("Editing note with ID: $idNote");
@@ -162,6 +165,7 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<void> fetchNotes({int? idNotepad}) async {
+    _initialize();
     _isLoading = true;
     _hasError = false;
     notifyListeners();

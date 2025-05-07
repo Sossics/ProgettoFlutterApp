@@ -43,6 +43,7 @@ class ApiService {
     String url,
     Map<String, dynamic> body,
   ) async {
+    _initialize();
     await _waitUntilReady();
     try {
       print("REQUEST URL: POST " + url);
@@ -61,6 +62,7 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>?> getRequest(String url) async {
+    _initialize();
     await _waitUntilReady();
     try {
       print("REQUEST URL: GET " + url);
@@ -77,6 +79,7 @@ class ApiService {
     String url,
     Map<String, dynamic> body,
   ) async {
+    _initialize();
     await _waitUntilReady();
     print("REQUEST URL: PUT " + url);
     print("REQUEST Headers: " + headers.toString());
@@ -98,6 +101,7 @@ class ApiService {
     String url,
     Map<String, dynamic> body,
   ) async {
+    _initialize();
     await _waitUntilReady();
     print("REQUEST URL: PATCH " + url);
     print("REQUEST Headers: " + headers.toString());
@@ -116,6 +120,7 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>?> deleteRequest(String url) async {
+    _initialize();
     await _waitUntilReady();
     try {
       print("REQUEST URL: DEL " + url);

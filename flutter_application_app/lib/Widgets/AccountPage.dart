@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
 import 'package:flutter_application_app/Screen/WelcomeScreen.dart';
 import 'package:flutter_application_app/Widgets/NotesPage.dart';
@@ -7,12 +8,19 @@ class AccountPage extends StatelessWidget {
   final StorageService _StorageService = StorageService();
 
   Future<void> _logout(BuildContext context) async {
+
+    _StorageService.setMod();
     await _StorageService.deleteToken();
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => WelcomeScreen()),
     );
+
+    //close application
+    //SystemNavigator.pop(); // Uncomment this line if you want to close the app after logout
+    
+
   }
 
   @override

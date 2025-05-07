@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadToken() async {
     String? token = await _StorageService.getToken();
+    print("\n\n\n\-------------------"+token.toString()+"-------------------\n\n\n\n");
     // _tokenStorageService.deleteToken();
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
