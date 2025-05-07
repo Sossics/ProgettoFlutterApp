@@ -85,6 +85,7 @@
                  $note->addChild('id', $note_row['id']);
                  $note->addChild('title', htmlspecialchars($note_row['titolo']));
                  $note->addChild('body', htmlspecialchars($note_row['corpo']));
+                 $note->addChild('id_notepad', $note_row['id_blocco']);
              }
  
              http_response_code(200);
@@ -116,6 +117,7 @@
                     $note->addChild('id', $shared_row['id']);
                     $note->addChild('title', htmlspecialchars($shared_row['titolo']));
                     $note->addChild('body', htmlspecialchars($shared_row['corpo']));
+                    $note->addChild('id_notepad', $shared_row['id_blocco']);
                     $note->addChild('pex', $shared_row['permesso']);
                 }
     

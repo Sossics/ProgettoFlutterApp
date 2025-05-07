@@ -46,14 +46,14 @@ class _NoteEditPageState extends State<NoteEditPage> {
       widget.noteId,
       _bodyController.text,
     );
-    print("Nota aggiornata: ${_titleController.text}, ${_bodyController.text}");
+    print("Notes upated: ${_titleController.text}, ${_bodyController.text}");
 
     if (successTitle && successBody) {
       Navigator.pop(context);
     } else {
       // Puoi anche mostrare un errore con uno SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Errore nel salvataggio della nota")),
+        const SnackBar(content: Text("Error during update")),
       );
     }
   }
@@ -62,9 +62,13 @@ class _NoteEditPageState extends State<NoteEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Modifica Nota"),
+        title: const Text("Modify Notes"),
         actions: [
-          IconButton(icon: const Icon(Icons.save), onPressed: _saveNote),
+          FilledButton(
+              onPressed: _saveNote,
+              child: const Text("Save"),
+            ),
+          Padding(padding: const EdgeInsets.only(right: 16)),
         ],
       ),
       body: Padding(
@@ -73,32 +77,30 @@ class _NoteEditPageState extends State<NoteEditPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Titolo",
+              "Title",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
-                hintText: "Inserisci il titolo",
+                hintText: "Insert the title",
+                border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             const Text(
-              "Contenuto",
+              "Content",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             TextField(
               controller: _bodyController,
               maxLines: 10,
               decoration: const InputDecoration(
-                hintText: "Inserisci il contenuto della nota",
+                hintText: "Insert the content of the note",
+                border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _saveNote,
-              child: const Text("Salva Modifiche"),
-            ),
           ],
         ),
       ),

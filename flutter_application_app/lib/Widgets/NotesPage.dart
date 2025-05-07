@@ -30,9 +30,6 @@ class _NotesPageState extends State<NotesPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notes'),
-      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 600;
