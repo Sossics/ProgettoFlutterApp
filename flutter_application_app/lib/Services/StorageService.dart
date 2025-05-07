@@ -1,3 +1,4 @@
+import 'package:flutter_application_app/Constants/HTTPmode.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class StorageService {
@@ -18,28 +19,29 @@ class StorageService {
     await _storage.delete(key: 'jwt_token');
   }
 
-  Future<void> setMod() async {
-    await _storage.write(key: 'mod', value: 'json');
+  Future<void> setMod(HTTPMode mode) async {
+    await _storage.write(key: 'mod', value: mode.value);
   }
 
   Future<void> initStorage() async {
-    await _storage.write(key: 'mod', value: 'json');
+    await _storage.write(key: 'mod', value: HTTPMode.json.value);
   }
 
-  // Recupera il token
-  Future<String?> getMod() async {
-    return await _storage.read(key: 'mod');
+  Future<HTTPMode?> getMod() async {
+    final raw = await _storage.read(key: 'mod');
+    if (raw == null) return null;
+
+    try {
+      return HTTPModeExtension.fromString(raw);
+    } catch (_) {
+      return null;
+    }
   }
 
   // Elimina il token
   Future<void> changeMod() async {
-    String? currentMod = await getMod();
-    if (currentMod == 'json') {
-      await _storage.write(key: 'mod', value: 'xml');
-    } else {
-      await _storage.write(key: 'mod', value: 'json');
-    }
+    final currentMod = await getMod();
+    final newMod = (currentMod == HTTPMode.json) ? HTTPMode.xml : HTTPMode.json;
+    await setMod(newMod);
   }
-
-
 }

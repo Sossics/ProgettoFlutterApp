@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/Constants/HTTPmode.dart';
 import 'package:flutter_application_app/Services/ApiService.dart';
 import 'package:flutter_application_app/Constants/NotelyApiConstants.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
@@ -45,7 +46,9 @@ class AppProvider with ChangeNotifier {
     _isLoading = true;
     _hasError = false;
     notifyListeners();
-    _mod = await _StorageService.getMod();
+    final modEnum = await _StorageService.getMod();
+    _mod = modEnum?.value;
+
 
     try {
       print("Fetching notepads...");
@@ -119,7 +122,8 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> editNoteTitle(int idNote, String newTitle) async {
-    _mod = await _StorageService.getMod();
+    final modEnum = await _StorageService.getMod();
+    _mod = modEnum?.value;
 
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_TITLE}");
@@ -131,7 +135,8 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> editNoteBody(int idNote, String newBody) async {
-    _mod = await _StorageService.getMod();
+    final modEnum = await _StorageService.getMod();
+    _mod = modEnum?.value;
 
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_BODY}");
@@ -165,7 +170,8 @@ class AppProvider with ChangeNotifier {
     _isLoading = true;
     _hasError = false;
     notifyListeners();
-    _mod = await _StorageService.getMod();
+    final modEnum = await _StorageService.getMod();
+    _mod = modEnum?.value;
 
 
     try {
