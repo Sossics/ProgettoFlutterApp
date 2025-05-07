@@ -39,25 +39,42 @@ class _NoteblockPageState extends State<NoteblockPage> {
   Widget build(BuildContext context) {
     final appProvider = context.watch<AppProvider>();
 
-    if (appProvider.isLoading) {
+    if (appProvider.isLoading || appProvider.notepads.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
     if (appProvider.hasError) {
-      return const Center(child: Text('Errore nel caricamento dei blocchi note.'));
+      return const Center(
+        child: Text('Errore nel caricamento dei blocchi note.'),
+      );
     }
+
+    final notepads = appProvider.notepads;
+    final isJsonMode = mod == "json";
 
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 600;
-          final notepads = appProvider.notepads;
+          final notesList =
+              isJsonMode
+                  ? notepads
+                  : (notepads.isNotEmpty && notepads[0]['Notepad'] != null)
+                  ? notepads[0]['Notepad']
+                  : [];
+
+          if (notesList.isEmpty) {
+            return const Center(child: Text('Nessun blocco note trovato.'));
+          }
 
           if (!isWide) {
             // Mobile layout
             return ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
+              itemCount:
+                  (mod == "json")
+                      ? notepads.length
+                      : notepads[0]['Notepad'].length,
               itemBuilder: (context, index) {
                 final note;
                 if (mod == "json") {
@@ -75,7 +92,8 @@ class _NoteblockPageState extends State<NoteblockPage> {
           } else {
             // Wide screen layout
             int crossAxisCount = 2;
-            if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500) crossAxisCount = 3;
+            if (constraints.maxWidth > 1000 && constraints.maxWidth < 1500)
+              crossAxisCount = 3;
             if (constraints.maxWidth > 1500) crossAxisCount = 4;
 
             return GridView.builder(
@@ -86,7 +104,10 @@ class _NoteblockPageState extends State<NoteblockPage> {
                 crossAxisSpacing: 16,
                 childAspectRatio: 1.4,
               ),
-              itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
+              itemCount:
+                  (mod == "json")
+                      ? notepads.length
+                      : notepads[0]['Notepad'].length,
               itemBuilder: (context, index) {
                 final note;
                 if (mod == "json") {
