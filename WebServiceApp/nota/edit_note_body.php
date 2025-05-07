@@ -23,7 +23,11 @@ require '../utils/db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if(verifica_token()){
+if($_SERVER["REQUEST_METHOD"] != "PATCH") {
+    echo "Method not allowed. Use PATCH method.";
+    http_response_code(405);
+    exit;
+}else if(verifica_token()){
 
 if (isset($data["id_note"]) && isset($data["body"]) && isset($data["mod"])) {
     $xml = new SimpleXMLElement('<result/>');
