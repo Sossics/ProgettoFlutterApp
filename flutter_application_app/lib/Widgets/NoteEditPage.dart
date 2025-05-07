@@ -49,9 +49,8 @@ class _NoteEditPageState extends State<NoteEditPage> {
     print("Notes upated: ${_titleController.text}, ${_bodyController.text}");
 
     if (successTitle && successBody) {
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } else {
-      // Puoi anche mostrare un errore con uno SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Error during update")),
       );
