@@ -119,29 +119,33 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> editNoteTitle(int idNote, String newTitle) async {
+    _mod = await _StorageService.getMod();
+
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_TITLE}");
     final response = await _apiService.patchRequest(
       NotelyApiConstants.EDIT_NOTE_TITLE,
-      {"id": idNote, "title": newTitle},
+      {"id_note": idNote, "title": newTitle, "mod": _mod},
     );
-    return response != null && response['success'] == 'true';
+    return (response != null && response['success'] == 'true');
   }
 
   Future<bool> editNoteBody(int idNote, String newBody) async {
+    _mod = await _StorageService.getMod();
+
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_BODY}");
     final response = await _apiService.patchRequest(
       NotelyApiConstants.EDIT_NOTE_BODY,
-      {"id": idNote, "body": newBody},
+      {"id_note": idNote, "body": newBody, "mod": _mod},
     );
-    return response != null && response['success'] == 'true';
+    return (response != null && response['success'] == 'true');
   }
 
   Future<bool> shareNote(int idNote, String username) async {
     print("Sharing note with ID: $idNote to user: $username");
     print("Using Endpoint: ${NotelyApiConstants.SHARE_NOTE}");
-    final response = await _apiService.postRequest(
+    final response = await _apiService.patchRequest(
       NotelyApiConstants.SHARE_NOTE,
       {"id_note": idNote, "username": username},
     );
