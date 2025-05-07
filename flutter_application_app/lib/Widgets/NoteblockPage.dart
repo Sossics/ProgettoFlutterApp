@@ -16,6 +16,7 @@ class _NoteblockPageState extends State<NoteblockPage> {
 
   final StorageService _StorageService = StorageService();
   int? _uid;
+  String? mod;
 
 
   @override
@@ -27,6 +28,7 @@ class _NoteblockPageState extends State<NoteblockPage> {
 
   Future<void> _loadToken() async {
     String? token = await _StorageService.getToken();
+    mod = await _StorageService.getMod();
     // _tokenStorageService.deleteToken();
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
@@ -53,18 +55,20 @@ class _NoteblockPageState extends State<NoteblockPage> {
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 600;
         final notepads = appProvider.notepads;
-        print(notepads[0]);
+        
         if (!isWide) {
           // Mobile layout
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: _StorageService.getMod() == "xml"
-                  ? notepads[0].length
-                  : notepads.length,
+            itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
             itemBuilder: (context, index) {
-              final note = _StorageService.getMod() == "xml"
-                  ? notepads[0][index]
-                  : notepads[index];
+              final note;
+              if (mod == "json") {
+                note = notepads[index];
+              }else{
+                note = notepads[0]['Notepad'][index];
+              }
+              print(note);
               return NoteblockCard(
                 id: (note['id'] ?? 0).toString(),
                 title: note['title'] ?? 'No Title',
@@ -86,9 +90,15 @@ class _NoteblockPageState extends State<NoteblockPage> {
               crossAxisSpacing: 16,
               childAspectRatio: 1.4,
             ),
-            itemCount: notepads.length,
+            itemCount: (mod == "json") ? notepads.length : notepads[0]['Notepad'].length,
             itemBuilder: (context, index) {
-              final note = notepads[index];
+              final note;
+              if (mod == "json") {
+                note = notepads[index];
+              }else{
+                note = notepads[0]['Notepad'][index];
+              }
+              print(note);
               return NoteblockCard(
                 id: (note['id'] ?? 0).toString(),
                 title: note['title'] ?? 'No Title',
