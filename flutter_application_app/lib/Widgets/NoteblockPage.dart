@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_app/Provider/AppProvider.dart';
 import 'package:flutter_application_app/Widgets/NoteblockCard.dart';
+import 'package:flutter_application_app/Widgets/CreateNotepadPage.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -126,23 +127,15 @@ class _NoteblockPageState extends State<NoteblockPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your logic to add a new notebook here
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Add Notebook'),
-                content: const Text('Add notebook functionality goes here.'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Close'),
-                  ),
-                ],
-              );
-            },
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateNotepadPage()),
           );
+
+          if (result == true && context.mounted) {
+            context.read<AppProvider>().fetchNotepads();
+          }
         },
         child: const Icon(Icons.add),
       ),
