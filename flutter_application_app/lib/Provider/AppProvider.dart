@@ -78,12 +78,12 @@ class AppProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> createNotepad(String title) async {
+  Future<bool> createNotepad(String title, String description) async {
     print("Creating notepad with title: $title");
     print("Using Endpoint: ${NotelyApiConstants.CREATE_NOTEPAD}");
     final response = await _apiService.postRequest(
       NotelyApiConstants.CREATE_NOTEPAD,
-      {"title": title},
+      {"title": title, "mod": _mod, "id_user": _userID, "description": description},
     );
     return response != null && response['success'] == 'true';
   }
@@ -114,7 +114,7 @@ class AppProvider with ChangeNotifier {
     print("Using Endpoint: ${NotelyApiConstants.CREATE_NOTE}");
     final response = await _apiService.postRequest(
       NotelyApiConstants.CREATE_NOTE,
-      {"id_notepad": idNotepad, "title": title, "body": body},
+      {"id_notepad": idNotepad, "title": title, "body": body, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
