@@ -27,14 +27,14 @@ if($_SERVER["REQUEST_METHOD"] != "POST") {
     http_response_code(405);
     exit;
 }else if(verifica_token()){
-
-if (isset($_POST["title"]) && isset($_POST["id_user"]) && isset($_POST["description"]) && isset($_POST["mod"])) {
+    $input = json_decode(file_get_contents("php://input"), true);
+if (isset($input["title"]) && isset($input["id_user"]) && isset($input["description"]) && isset($input["mod"])) {
     $xml = new SimpleXMLElement('<result/>');
 
     $sql = "INSERT INTO blocco (id, id_utente, titolo, descrizione) VALUES (NULL,  ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
-    $stmt->bind_param("iss", $_POST["id_user"], $_POST["title"], $_POST["description"]);
+    $stmt->bind_param("iss", $input["id_user"], $input["title"], $input["description"]);
 
     if ($stmt->execute()) {
 
@@ -52,10 +52,10 @@ if (isset($_POST["title"]) && isset($_POST["id_user"]) && isset($_POST["descript
     }
     $stmt->close();
 
-    if ($_POST["mod"] == "xml") {
+    if ($input["mod"] == "xml") {
         header('Content-Type: application/xml');
         echo $xml->asXML();
-    } else if ($_POST["mod"] == "json") {
+    } else if ($input["mod"] == "json") {
         header('Content-Type: application/json');
         echo json_encode($xml);
     }

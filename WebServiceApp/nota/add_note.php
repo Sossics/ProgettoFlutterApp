@@ -22,47 +22,48 @@
 
 require '../utils/db.php';
 
-if($_SERVER["REQUEST_METHOD"] != "POST") {
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
     echo "Method not allowed. Only POST is allowed";
     http_response_code(405);
     exit;
-}else if(verifica_token()){
+} else if (verifica_token()) {
+    $input = json_decode(file_get_contents("php://input"), true);
+    if (isset($input["id_notepad"]) && isset($input["title"]) && isset($input["body"]) && isset($input["mod"])) {
 
-if (isset($_POST["id_notepad"]) && isset($_POST["title"]) && isset($_POST["body"]) && isset($_POST["mod"])) {
-    $xml = new SimpleXMLElement('<result/>');
+        $xml = new SimpleXMLElement('<result/>');
 
-    $sql = "INSERT INTO nota (id, id_blocco, titolo, corpo) VALUES (NULL,  ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+        $sql = "INSERT INTO nota (id_blocco, titolo, corpo) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
 
-    $stmt->bind_param("iss", $_POST["id_notepad"], $_POST["title"], $_POST["body"]);
+        $stmt->bind_param("iss", $input["id_notepad"], $input["title"], $input["body"]);
 
-    if ($stmt->execute()) {
+        if ($stmt->execute()) {
 
-        $xml->addChild('success', 'true');
-        $xml->addChild('message', 'Nota creata con successo!');
-        $xml->addChild('error', '');
-        http_response_code(200);
+            $xml->addChild('success', 'true');
+            $xml->addChild('message', 'Nota creata con successo!');
+            $xml->addChild('error', '');
+            http_response_code(200);
+        } else {
+            $xml->addChild('success', 'false');
+            $xml->addChild('message', 'Nota non creata');
+            $xml->addChild('error', 'Error during the creation');
+            http_response_code(401);
+        }
+        $stmt->close();
+
+        if ($input["mod"] == "xml") {
+            header('Content-Type: application/xml');
+            echo $xml->asXML();
+        } else if ($input["mod"] == "json") {
+            header('Content-Type: application/json');
+            echo json_encode($xml);
+        }
     } else {
-        $xml->addChild('success', 'false');
-        $xml->addChild('message', 'Nota non creata');
-        $xml->addChild('error', 'Error during the creation');
-        http_response_code(401);
+        echo "Missing parameters. Required parameters are: id_notepad, title, body and mod";
+        http_response_code(400);
     }
-    $stmt->close();
 
-    if ($_POST["mod"] == "xml") {
-        header('Content-Type: application/xml');
-        echo $xml->asXML();
-    } else if ($_POST["mod"] == "json") {
-        header('Content-Type: application/json');
-        echo json_encode($xml);
-    }
 } else {
-    echo "Missing parameters. Required parameters are: id_notepad, title, body and mod";
-    http_response_code(400);
-}
-
-}else{
     echo "Token non valido";
     http_response_code(401);
 }
