@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Style/Colors.dart';
-import 'package:flutter_application_app/Widgets/NoteEditPage.dart'; // Importa la nuova pagina di modifica
+import 'package:flutter_application_app/Widgets/NoteEditPage.dart';
 
 class NoteCard extends StatelessWidget {
-  final String id; // Aggiungi una proprietà per l'ID
+  final String id;
   final String title;
   final String body;
+  final VoidCallback onTap;
 
   const NoteCard({
     super.key,
-    required this.id, // Modifica il costruttore per ricevere l'ID
+    required this.id,
     required this.title,
     required this.body,
+    required this.onTap,
   });
 
   @override
@@ -22,15 +24,7 @@ class NoteCard extends StatelessWidget {
       margin: const EdgeInsets.all(4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide.none),
       child: GestureDetector(
-        onTap: () {
-          // Naviga alla pagina di modifica della nota passando i dati
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NoteEditPage(noteId: int.parse(id), title: title, body: body),
-            ),
-          );
-        },
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
