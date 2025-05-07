@@ -58,7 +58,7 @@ if (isset($_POST["id_notepad"]) && isset($_POST["title"]) && isset($_POST["body"
         echo json_encode($xml);
     }
 } else {
-    echo "Parametri non validi";
+    echo "Missing parameters. Required parameters are: id_notepad, title, body and mod";
     http_response_code(400);
 }
 
