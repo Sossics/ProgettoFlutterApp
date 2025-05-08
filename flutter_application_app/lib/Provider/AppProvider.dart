@@ -89,31 +89,40 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<bool> editNotepadBody(int idNotepad, String newBody) async {
+    _initialize();
+    _mod = await _StorageService.getMod();
+
     print("Editing notepad with ID: $idNotepad");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTEPAD_BODY}");
-    final response = await _apiService.putRequest(
+    final response = await _apiService.patchRequest(
       NotelyApiConstants.EDIT_NOTEPAD_BODY,
-      {"id": idNotepad, "body": newBody},
+      {"id_notepad": idNotepad, "description": newBody, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
 
   Future<bool> editNotepadTitle(int idNotepad, String newTitle) async {
+    _initialize();
+    _mod = await _StorageService.getMod();
+
     print("Editing notepad with ID: $idNotepad");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTEPAD_TITLE}");
-    final response = await _apiService.putRequest(
-      NotelyApiConstants.EDIT_NOTEPAD_BODY,
-      {"id": idNotepad, "title": newTitle},
+    final response = await _apiService.patchRequest(
+      NotelyApiConstants.EDIT_NOTEPAD_TITLE,
+      {"id_notepad": idNotepad, "title": newTitle, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
 
   Future<bool> deleteNotepad(int idNotepad) async {
+    _initialize();
+    _mod = await _StorageService.getMod();
+
     print("Deleting notepad with ID: $idNotepad");
     print("Using Endpoint: ${NotelyApiConstants.DELETE_NOTEPAD}");
     final response = await _apiService.deleteRequest(
-      "${NotelyApiConstants.DELETE_NOTEPAD}/$idNotepad",
-      {"id": idNotepad, "mod": _mod},
+      "${NotelyApiConstants.DELETE_NOTEPAD}",
+      {"id_notepad": idNotepad, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
@@ -137,7 +146,7 @@ class AppProvider with ChangeNotifier {
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_TITLE}");
     final response = await _apiService.patchRequest(
-      NotelyApiConstants.EDIT_NOTE_TITLE,
+      NotelyApiConstants.EDIT_NOTEPAD_TITLE,
       {"id_note": idNote, "title": newTitle, "mod": _mod},
     );
     return (response != null && response['success'] == 'true');

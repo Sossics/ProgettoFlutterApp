@@ -86,7 +86,7 @@ class _NoteblockPageState extends State<NoteblockPage> {
                 return NoteblockCard(
                   id: (note['id'] ?? 0).toString(),
                   title: note['title'] ?? 'No Title',
-                  body: note['body'] ?? '',
+                  body: note['Description'] ?? '',
                 );
               },
             );
@@ -119,7 +119,7 @@ class _NoteblockPageState extends State<NoteblockPage> {
                 return NoteblockCard(
                   id: (note['id'] ?? 0).toString(),
                   title: note['title'] ?? 'No Title',
-                  body: note['body'] ?? '',
+                  body: note['Description'] ?? '',
                 );
               },
             );
