@@ -57,6 +57,23 @@ class _NoteblockEditPage extends State<NoteblockEditPage> {
     }
   }
 
+  Future<void> _deleteNoteblock() async {
+    final appProvider = context.read<AppProvider>();
+    final success = await appProvider.deleteNotepad(widget.noteblockId);
+    
+    print("Notepad elimination: ${_titleController.text}, ${_bodyController.text}");
+
+    if (success) {
+      Navigator.pop(context, true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error during deletion")),
+      );
+    }
+    
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +81,15 @@ class _NoteblockEditPage extends State<NoteblockEditPage> {
         title: const Text("Modify Notepad"),
         actions: [
           FilledButton(
-              onPressed: null,
+              onPressed: _deleteNoteblock,
+              child: const Text("Delete Notepad"),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 221, 13, 78)),
+              ),
+            ),
+          Padding(padding: const EdgeInsets.only(right: 8)),
+          FilledButton(
+              onPressed: _saveNoteblock,
               child: const Text("Save"),
             ),
           Padding(padding: const EdgeInsets.only(right: 16)),
