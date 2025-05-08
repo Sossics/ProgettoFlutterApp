@@ -6,7 +6,7 @@
 
 RewriteEngine On
 
-RewriteRule ^Service/v1/Users/register$ utente/add_user.php [L]
+RewriteRule ^Service/v1/Users/$ utente/fetch_user.php [L]
 RewriteRule ^Service/v1/Users/update$ utente/update_user.php [L]
 RewriteRule ^Service/v1/Users/delete$ utente/delete_user.php [L]
 

@@ -34,7 +34,7 @@ class NotelyApiConstants {
     static const String CHECK_USERNAME = "$UserEndpoint/check-username"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/check-username
     static const String AUTH = "$UserEndpoint/auth"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/auth
 
-    static const String ADD_USER = "$UserEndpoint/add-user"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/add-user
+    static const String FETCH_USER = "$UserEndpoint"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/add-user
     static const String UPDATE_USER = "$UserEndpoint/update"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/update
     static const String DELETE_USER = "$UserEndpoint/delete"; // http://localhost/ProgettoFlutterApp/WebSerivceApp/v1/Users/delete
 

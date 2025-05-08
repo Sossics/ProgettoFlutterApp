@@ -29,15 +29,69 @@ class AppProvider with ChangeNotifier {
   // Variabili per lo stato
   List<Map<String, dynamic>> _notes = [];
   List<Map<String, dynamic>> _notepads = [];
+  List<Map<String, dynamic>> _user = [];
 
   bool _isLoading = true;
   bool _hasError = false;
 
   List<Map<String, dynamic>> get notes => _notes;
   List<Map<String, dynamic>> get notepads => _notepads;
+  List<Map<String, dynamic>> get user => _user;
 
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
+
+  // ==================== USER ====================
+
+  Future<bool> updateUser(int id, String name, String surname) async {
+    _initialize();
+    _mod = await _StorageService.getMod();
+
+    print("Editing user with ID: $id");
+    print("Using Endpoint: ${NotelyApiConstants.UPDATE_USER}");
+    final response = await _apiService.putRequest(
+      NotelyApiConstants.UPDATE_USER,
+      {"id": id, "name": name, "surname" : surname, "mod" : _mod},
+    );
+    return response != null && response['success'] == 'true';
+  }
+  
+  Future<void> fetchUser() async {
+    _initialize();
+    _isLoading = true;
+    _hasError = false;
+    notifyListeners();
+    _mod = await _StorageService.getMod();
+
+    try {
+      print("Fetching user...");
+      print("Using Endpoint: ${NotelyApiConstants.FETCH_USER}");
+
+      final response = await _apiService.getRequest(
+        "${NotelyApiConstants.FETCH_USER}/?mod=$_mod&id=$_userID",
+      );
+
+      if (response != null && response['success'] == 'true') {
+        var data = response;
+
+        if (data is List) {
+          _user = List<Map<String, dynamic>>.from(data as Iterable);
+        } else {
+          _user = [data];
+        }
+
+      } else {
+        _hasError = true;
+      }
+    } catch (e) {
+      print("Errore in fetchUser: $e");
+      _hasError = true;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
 
   // ==================== NOTEPAD ====================
 
