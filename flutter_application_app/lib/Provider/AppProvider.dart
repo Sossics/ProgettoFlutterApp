@@ -219,12 +219,11 @@ class AppProvider with ChangeNotifier {
     return (response != null && response['success'] == 'true');
   }
 
-  Future<bool> shareNote(int idNote, String username) async {
-    print("Sharing note with ID: $idNote to user: $username");
+  Future<bool> shareNote(int idNote, String email, int permission) async {
+    print("Sharing note with ID: $idNote to user: $email");
     print("Using Endpoint: ${NotelyApiConstants.SHARE_NOTE}");
-    final response = await _apiService.patchRequest(
-      NotelyApiConstants.SHARE_NOTE,
-      {"id_note": idNote, "username": username},
+    final response = await _apiService.getRequest(
+      "${NotelyApiConstants.SHARE_NOTE}?id_note=$idNote&email=$email&mod=$_mod&permission=$permission",
     );
     return response != null && response['success'] == 'true';
   }
