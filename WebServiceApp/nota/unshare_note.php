@@ -10,7 +10,6 @@
  *  I parametri richiesti sono:
  *      @param mod: formato di risposta (xml o json)
  *      @param id_note: l'id della nota da eliminare
- *      @param id_user: l'id della nota da eliminare
  * 
  *   La risposta è in formato xml o json a seconda del parametro mod e restituisce il risultato dell'operazione
  * 
@@ -29,13 +28,13 @@ if($_SERVER["REQUEST_METHOD"] != "DELETE") {
     exit;
 }else if(verifica_token()){
 
-if (isset($data["id_note"], $data["id_user"]) && $data["id_user"] != null && $data["id_note"] != null  && isset($data["mod"])) {
+if (isset($data["id_note"]) && $data["id_note"] != null  && isset($data["mod"])) {
     $xml = new SimpleXMLElement('<result/>');
 
-    $sql = "DELETE FROM appartiene WHERE appartiene.id_nota = ? AND appartiene.id_utente = ?";
+    $sql = "DELETE FROM appartiene WHERE appartiene.id_nota = ?";
     $stmt = $conn->prepare($sql);
 
-    $stmt->bind_param("ii", $data["id_note"], $data["id_user"]);
+    $stmt->bind_param("i", $data["id_note"]);
 
     if ($stmt->execute()) {
 

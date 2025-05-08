@@ -46,7 +46,6 @@ class _NoteEditPageState extends State<NoteEditPage> {
       widget.noteId,
       _bodyController.text,
     );
-    print("Notes upated: ${_titleController.text}, ${_bodyController.text}");
 
     if (successTitle && successBody) {
       Navigator.pop(context, true);
@@ -56,11 +55,10 @@ class _NoteEditPageState extends State<NoteEditPage> {
       );
     }
   }
+
   Future<void> _deleteNote() async {
     final appProvider = context.read<AppProvider>();
     final success = await appProvider.deleteNote(widget.noteId);
-    
-    print("Notes elimination: ${_titleController.text}, ${_bodyController.text}");
 
     if (success) {
       Navigator.pop(context, true);
@@ -69,7 +67,107 @@ class _NoteEditPageState extends State<NoteEditPage> {
         const SnackBar(content: Text("Error during deletion")),
       );
     }
-    
+  }
+
+  Future<void> _shareNote() async {
+    final emailController = TextEditingController();
+    bool isEditPermission = false;
+
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Share Note"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter recipient's email",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Permission:"),
+                      Switch(
+                        value: isEditPermission,
+                        onChanged: (value) {
+                          setState(() {
+                            isEditPermission = value;
+                          });
+                        },
+                      ),
+                      Text(isEditPermission ? "Edit" : "View"),
+                    ],
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(null),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop({
+                      'email': emailController.text,
+                      'permission': isEditPermission ? 2 : 1,
+                    });
+                  },
+                  child: const Text("Share"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result == null || result['email'].isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email cannot be empty")),
+      );
+      return;
+    }
+
+    final appProvider = context.read<AppProvider>();
+    final success = await appProvider.shareNote(
+      widget.noteId,
+      result['email'],
+      result['permission'],
+    );
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Note shared!")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error during sharing")),
+      );
+    }
+  }
+
+  Future<void> _unshareNote() async {
+
+    final appProvider = context.read<AppProvider>();
+    final success = await appProvider.unshareNote(widget.noteId);
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Note unshared!")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error during unsharing")),
+      );
+    }
   }
 
   @override
@@ -79,18 +177,18 @@ class _NoteEditPageState extends State<NoteEditPage> {
         title: const Text("Modify Notes"),
         actions: [
           FilledButton(
-              onPressed: _deleteNote,
-              child: const Text("Delete Note"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 221, 13, 78)),
-              ),
+            onPressed: _deleteNote,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 221, 13, 78)),
             ),
-          Padding(padding: const EdgeInsets.only(right: 8)),
+            child: const Text("Delete Note"),
+          ),
+          const SizedBox(width: 8),
           FilledButton(
-              onPressed: _saveNote,
-              child: const Text("Save"),
-            ),
-          Padding(padding: const EdgeInsets.only(right: 16)),
+            onPressed: _saveNote,
+            child: const Text("Save"),
+          ),
+          const SizedBox(width: 16),
         ],
       ),
       body: Padding(
@@ -125,6 +223,22 @@ class _NoteEditPageState extends State<NoteEditPage> {
             const SizedBox(height: 16),
           ],
         ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: _shareNote,
+            tooltip: 'Share Note',
+            child: const Icon(Icons.share),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            onPressed: _unshareNote,
+            tooltip: 'Unshare Note',
+            child: const Icon(Icons.block),
+          ),
+        ],
       ),
     );
   }

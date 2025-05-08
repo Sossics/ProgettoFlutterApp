@@ -219,12 +219,25 @@ class AppProvider with ChangeNotifier {
     return (response != null && response['success'] == 'true');
   }
 
-  Future<bool> shareNote(int idNote, String username) async {
-    print("Sharing note with ID: $idNote to user: $username");
+  Future<bool> shareNote(int idNote, String email, int permission) async {
+     _initialize();
+    _mod = await _StorageService.getMod();
+    print("Sharing note with ID: $idNote to email: $email");
     print("Using Endpoint: ${NotelyApiConstants.SHARE_NOTE}");
-    final response = await _apiService.patchRequest(
-      NotelyApiConstants.SHARE_NOTE,
-      {"id_note": idNote, "username": username},
+    final response = await _apiService.getRequest(
+      "${NotelyApiConstants.SHARE_NOTE}?mod=$_mod&id_note=$idNote&email=$email&permission=$permission",
+    );
+    return response != null && response['success'] == 'true';
+  }
+
+  Future<bool> unshareNote(int idNote) async {
+    _initialize();
+    _mod = await _StorageService.getMod();
+    print("unsharing note with ID: $idNote");
+    print("Using Endpoint: ${NotelyApiConstants.UNSHARE_NOTE}");
+    final response = await _apiService.deleteRequest(
+      "${NotelyApiConstants.DELETE_NOTE}", 
+      {"id_note": idNote, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
   }
@@ -241,7 +254,7 @@ class AppProvider with ChangeNotifier {
     return response != null && response['success'] == 'true';
   }
 
-  Future<void> fetchNotes({int? idNotepad}) async {
+  Future<void> fetchNotes({int? idNotepad, bool? sharing}) async {
     _initialize();
     _isLoading = true;
     _hasError = false;
@@ -262,7 +275,12 @@ class AppProvider with ChangeNotifier {
       final response = await _apiService.getRequest(url);
 
       if (response != null && response['success'] == 'true') {
-        var notesData = response['notes']['Note'];
+        var notesData;
+        if (sharing != null && sharing) {
+          notesData = response['SharedNotes']['SharedNote'];
+        } else {
+          notesData = response['notes']['Note'];
+        }
 
         if (notesData is List) {
           _notes = List<Map<String, dynamic>>.from(notesData);

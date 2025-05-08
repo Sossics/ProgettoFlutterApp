@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/Services/StorageService.dart';
+import 'package:flutter_application_app/Widgets/SharingPage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_application_app/Widgets/NotesPage.dart';
@@ -81,7 +82,7 @@ Widget _buildWideLayout() {
   final List<Widget> _desktopPages = [
     const NotesPage(),
     const NoteblockPage(),
-    Center(child: Text("Sharing Page")),
+      const SharingPage(),
     AccountPage(),
   ];
 
@@ -115,7 +116,7 @@ Widget _buildWideLayout() {
     final List<Widget> mobilePages = [
       const NotesPage(),
       const NoteblockPage(),
-      Center(child: Text("Sharing Page")),
+      const SharingPage(),
       AccountPage(),
     ];
 
