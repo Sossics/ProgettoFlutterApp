@@ -146,7 +146,7 @@ class AppProvider with ChangeNotifier {
     print("Editing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.EDIT_NOTE_TITLE}");
     final response = await _apiService.patchRequest(
-      NotelyApiConstants.EDIT_NOTEPAD_TITLE,
+      NotelyApiConstants.EDIT_NOTE_TITLE,
       {"id_note": idNote, "title": newTitle, "mod": _mod},
     );
     return (response != null && response['success'] == 'true');
