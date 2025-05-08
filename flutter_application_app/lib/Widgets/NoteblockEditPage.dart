@@ -73,6 +73,91 @@ class _NoteblockEditPage extends State<NoteblockEditPage> {
     
   }
 
+  Future<void> _shareNotepad() async {
+    final emailController = TextEditingController();
+    bool isEditPermission = false;
+
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Share Note"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter recipient's email",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Permission:"),
+                      Switch(
+                        value: isEditPermission,
+                        onChanged: (value) {
+                          setState(() {
+                            isEditPermission = value;
+                          });
+                        },
+                      ),
+                      Text(isEditPermission ? "Edit" : "View"),
+                    ],
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(null),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop({
+                      'email': emailController.text,
+                      'permission': isEditPermission ? 2 : 1,
+                    });
+                  },
+                  child: const Text("Share"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result == null || result['email'].isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email cannot be empty")),
+      );
+      return;
+    }
+
+    final appProvider = context.read<AppProvider>();
+    final success = await appProvider.shareNotepad(
+      widget.noteblockId,
+      result['email'],
+      result['permission'],
+    );
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Notepad shared!")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error during sharing")),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +212,16 @@ class _NoteblockEditPage extends State<NoteblockEditPage> {
             const SizedBox(height: 16),
           ],
         ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: _shareNotepad,
+            tooltip: 'Share Notepad',
+            child: const Icon(Icons.share),
+          ),
+        ],
       ),
     );
   }

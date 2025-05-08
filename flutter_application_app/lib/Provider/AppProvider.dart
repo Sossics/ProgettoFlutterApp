@@ -181,6 +181,17 @@ class AppProvider with ChangeNotifier {
     return response != null && response['success'] == 'true';
   }
 
+  Future<bool> shareNotepad(int idNotepad, String email, int permission) async {
+     _initialize();
+    _mod = await _StorageService.getMod();
+    print("Sharing notepad with ID: $idNotepad to email: $email");
+    print("Using Endpoint: ${NotelyApiConstants.SHARE_NOTEPAD}");
+    final response = await _apiService.getRequest(
+      "${NotelyApiConstants.SHARE_NOTEPAD}?mod=$_mod&id_notepad=$idNotepad&email=$email&permission=$permission",
+    );
+    return response != null && response['success'] == 'true';
+  }
+
   // ==================== NOTE ====================
 
   Future<bool> createNote(int idNotepad, String title, String body) async {
