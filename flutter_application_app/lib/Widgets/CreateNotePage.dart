@@ -55,6 +55,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
     );
 
     if (success) {
+      appProvider.fetchNotes();
       Navigator.pop(context); 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

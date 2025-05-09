@@ -247,7 +247,7 @@ class AppProvider with ChangeNotifier {
     print("unsharing note with ID: $idNote");
     print("Using Endpoint: ${NotelyApiConstants.UNSHARE_NOTE}");
     final response = await _apiService.deleteRequest(
-      "${NotelyApiConstants.DELETE_NOTE}", 
+      "${NotelyApiConstants.UNSHARE_NOTE}", 
       {"id_note": idNote, "mod": _mod},
     );
     return response != null && response['success'] == 'true';
