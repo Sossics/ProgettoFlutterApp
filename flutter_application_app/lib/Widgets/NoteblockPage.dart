@@ -52,11 +52,25 @@ class _NoteblockPageState extends State<NoteblockPage> {
 
     final notepads = appProvider.notepads;
     final isJsonMode = mod == "json";
-    final notesList = isJsonMode
-        ? notepads
-        : (notepads.isNotEmpty && notepads[0]['Notepad'] != null)
-            ? notepads[0]['Notepad']
-            : [];
+
+    // Gestione sicura della lista note
+    List notesList = [];
+  if (isJsonMode) {
+    notesList = notepads;
+  } else if (mod == "xml") {
+    try {
+      final data = notepads[0]['Notepad'];
+      if (data is List) {
+        notesList = data;
+      } else if (data is Map) {
+        notesList = [data]; // Converti in lista con un solo elemento
+      }
+    } catch (e) {
+      debugPrint('Errore parsing XML: $e');
+      notesList = [];
+    }
+  }
+
 
     return Scaffold(
       body: notesList.isEmpty
