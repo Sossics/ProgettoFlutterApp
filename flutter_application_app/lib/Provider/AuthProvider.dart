@@ -61,7 +61,7 @@ class AuthProvider with ChangeNotifier {
 
     if (response != null && response.containsKey('token')) {
       print("Registrazione riuscita: ${response['message']}");
-
+      await _StorageService.saveToken(response['token']);
       // Naviga alla HomeScreen dopo la registrazione
       Navigator.pushReplacement(
         context,
