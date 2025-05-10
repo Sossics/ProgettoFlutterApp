@@ -26,6 +26,7 @@ class AuthProvider with ChangeNotifier {
       print("Username: ${response['username']}");
       print("Email: ${response['email']}");
       print("Salvo il token nella memoria...");
+      await _StorageService.deleteToken();
       await _StorageService.saveToken(response['token']);
       print("Token salvato con successo.");
 
@@ -61,6 +62,7 @@ class AuthProvider with ChangeNotifier {
 
     if (response != null && response.containsKey('token')) {
       print("Registrazione riuscita: ${response['message']}");
+      await _StorageService.deleteToken();
       await _StorageService.saveToken(response['token']);
       // Naviga alla HomeScreen dopo la registrazione
       Navigator.pushReplacement(

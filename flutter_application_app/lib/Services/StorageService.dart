@@ -15,7 +15,7 @@ class StorageService {
 
   // Elimina il token
   Future<void> deleteToken() async {
-    await _storage.write(key: 'jwt_token', value: '');
+    await _storage.delete(key: 'jwt_token');
   }
 
   Future<void> setMod() async {
